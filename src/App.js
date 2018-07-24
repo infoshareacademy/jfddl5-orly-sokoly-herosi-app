@@ -2,9 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 
-import OursSurveysView from './OursSurveysView'
-import NewSurveyView from './NewSurveyView'
-import FavouritesView from './FavouritesView'
+import OursSurveysView from './views/OursSurveysView'
+import NewSurveyView from './views/NewSurveyView'
+import FavouritesView from './views/FavouritesView'
 import SideBar from './SideBar'
 
 class App extends React.Component {
