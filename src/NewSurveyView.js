@@ -1,7 +1,7 @@
 import React from 'react'
 
 const NewSurveyView = () => (
-    <h1>NewSurveyView</h1>
+    <h1>New Survey View</h1>
 )
 
 export default NewSurveyView
