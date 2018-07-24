@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 
+import Dashboard from './views/Dashboard'
 import OursSurveysView from './views/OursSurveysView'
 import NewSurveyView from './views/NewSurveyView'
 import FavouritesView from './views/FavouritesView'
@@ -16,6 +17,7 @@ class App extends React.Component {
             <AppBar
               title={`Survey App`}
             />
+            <Dashboard />
             <SideBar />
             <Route path={'/ours-surveys'} component={OursSurveysView} />
             <Route path={'/new-survey'} component={NewSurveyView} />
