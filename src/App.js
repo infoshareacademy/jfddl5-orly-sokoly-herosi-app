@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import AppBar from 'material-ui/AppBar'
 
-class App extends Component {
+import OursSurveysView from './views/OursSurveysView'
+import NewSurveyView from './views/NewSurveyView'
+import FavouritesView from './views/FavouritesView'
+import SideBar from './SideBar'
+
+class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <Router>
+          <div>
+            <AppBar
+              title={`Survey App`}
+            />
+            <SideBar />
+            <Route path={'/ours-surveys'} component={OursSurveysView} />
+            <Route path={'/new-survey'} component={NewSurveyView} />
+            <Route path={'/favourites'} component={FavouritesView} />
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
-export default App;
+export default App
