@@ -6,9 +6,13 @@ import MenuItem from 'material-ui/MenuItem';
 const SideBarItem = (props) => (
 
     <Link to={props.to}
-        style={{ textDecoration: 'none' }}
+        style={{ 
+            textDecoration: 'none',
+            textAlign: 'center',
+            fontWeight: 'bold'
+        }}
     >
-        <MenuItem>{props.label}</MenuItem>
+        <MenuItem onClick={props.toggleSideBar}>{props.label}</MenuItem>
     </Link>
 )
 

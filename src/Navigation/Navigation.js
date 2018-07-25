@@ -5,12 +5,13 @@ import SideBar from './SideBar'
 
 class Navigation extends React.Component {
     state = {
-        isOpen: true
+        isOpen: false
     }
 
     toggleHandler =()=>{
-        this.setState({isOpen: !this.state.isOpen})
-
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
     }
 
     render() {
@@ -18,8 +19,10 @@ class Navigation extends React.Component {
         <div>
             <AppBar
                 title={`Survey App`}
+                onLeftIconButtonClick={this.toggleHandler}
             />
             <SideBar 
+            isSideBarOpen= {this.state.isOpen}
             toggleSideBar={this.toggleHandler}
             />
         </div>
