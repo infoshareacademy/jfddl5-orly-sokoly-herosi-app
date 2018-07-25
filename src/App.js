@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import AppBar from 'material-ui/AppBar'
 
 import OursSurveysView from './views/OursSurveysView'
 import NewSurveyView from './views/NewSurveyView'
 import FavouritesView from './views/FavouritesView'
-import SideBar from './SideBar'
+import Dashboard from './views/Dashboard/Dashboard'
+import Navigation from './Navigation'
 
 class App extends React.Component {
   render() {
@@ -13,10 +13,10 @@ class App extends React.Component {
       <div>
         <Router>
           <div>
-            <AppBar
-              title={`Survey App`}
-            />
-            <SideBar />
+
+            <Navigation />
+
+            <Route path={'/dashboard'} component={Dashboard} />
             <Route path={'/ours-surveys'} component={OursSurveysView} />
             <Route path={'/new-survey'} component={NewSurveyView} />
             <Route path={'/favourites'} component={FavouritesView} />
