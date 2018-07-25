@@ -6,6 +6,13 @@ import {Link} from 'react-router-dom'
 const SideBar = () => (
    <Drawer
        open={true}>
+       <Link to={'/dashboard'}
+           style={{ textDecoration: 'none' }}
+       >
+           <MenuItem>
+               Dashboard
+           </MenuItem>
+       </Link>
         <Link to={'/ours-surveys'}
            style={{ textDecoration: 'none' }}
        >

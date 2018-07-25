@@ -17,8 +17,9 @@ class App extends React.Component {
             <AppBar
               title={`Survey App`}
             />
-            <Dashboard />
             <SideBar />
+            <Route path={'/'} exact component={Dashboard}/>
+            <Route path={'/dashboard'} component={Dashboard}/>
             <Route path={'/ours-surveys'} component={OursSurveysView} />
             <Route path={'/new-survey'} component={NewSurveyView} />
             <Route path={'/favourites'} component={FavouritesView} />
