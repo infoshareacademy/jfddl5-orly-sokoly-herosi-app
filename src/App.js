@@ -16,6 +16,7 @@ class App extends React.Component {
 
             <Navigation />
 
+            <Route path={'/'} exact component={Dashboard} />
             <Route path={'/dashboard'} component={Dashboard} />
             <Route path={'/ours-surveys'} component={OursSurveysView} />
             <Route path={'/new-survey'} component={NewSurveyView} />
