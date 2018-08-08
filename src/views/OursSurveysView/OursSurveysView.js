@@ -1,6 +1,7 @@
 import React from 'react'
 import TextField from 'material-ui/TextField';
 import SurveyItem from '../../components/SurveyItem'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 class OursSurveysView extends React.Component {
 
@@ -9,6 +10,7 @@ class OursSurveysView extends React.Component {
         this.state = {
             searchValue: '',
             surveyList: [],
+            numPage: ''
         }
     }
 
@@ -35,7 +37,6 @@ class OursSurveysView extends React.Component {
 
 
     render() {
-
         const searchSurveyList = this.state.surveyList
             .map(e => e)
             .filter(e => {
@@ -43,6 +44,8 @@ class OursSurveysView extends React.Component {
                     e.title.toUpperCase().indexOf(this.state.searchValue) >= 0 ||
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
             })
+
+          const numberOfPages = Math.ceil(searchSurveyList.length/10)
 
         return (<div className="view__ours-survey">
 
@@ -57,6 +60,8 @@ class OursSurveysView extends React.Component {
                     onChange={this.onChangeSearchValue}
                 />
 
+
+
                 {
                     searchSurveyList.map(item =>
 
@@ -66,12 +71,36 @@ class OursSurveysView extends React.Component {
                         />
                     )
                 }
-                
+
+                <ButtonPageMaker number={numberOfPages} />
+
             </div>
 
         </div>
         )
     }
+
+}
+
+
+const ButtonPageMaker = ({ number }) => {
+
+    const styles = {
+        color: 'white',
+    };
+
+    const emptyArray = Array(number).fill(null)
+
+    const newArrayWithButtons = emptyArray
+        .map((e, num) => (
+            <FloatingActionButton
+                mini={true}
+                iconStyle={styles}
+            >
+                {num + 1}
+            </FloatingActionButton>))
+
+    return <div className="page-numbers">{newArrayWithButtons}</div>
 
 }
 
