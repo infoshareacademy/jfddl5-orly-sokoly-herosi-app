@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import SurveyItem from '../../components/SurveyItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import OSHPaper from '../../components/OSHPaper'
+import './oursSurveys.css'
 
 class OursSurveysView extends React.Component {
 
@@ -55,47 +56,48 @@ class OursSurveysView extends React.Component {
 
         const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
 
+
         return (
-        <OSHPaper>
-        <div className="view__ours-survey">
-                <h1>Ours Surveys View</h1>
+            <OSHPaper>
+                <div className="ours-surveys">
+                    <h1 className="ours-surveys__header">Ours Surveys View</h1>
 
-                <TextField
-                    fullWidth={true}
-                    hintText="Find the survey"
-                    value={this.state.searchValue}
-                    onChange={this.onChangeSearchValue}
-                />
+                    <TextField
+                        className={'ours-surveys__searcher-form'}
+                        fullWidth={true}
+                        hintText="Find the survey"
+                        value={this.state.searchValue}
+                        onChange={this.onChangeSearchValue}
+                    />
+                    <div className={'ours-surveys__surveys-list'}>
+                        {
+                            searchSurveyList
+                                .filter((item, index) => {
 
-                {
-                    searchSurveyList
-                    .filter((item, index) => {
+                                    const numberPage = this.state.numberPage
+                                    const numerOfSurveysOnOnePage = this.state.numerOfSurveysOnOnePage
 
-                        const numberPage = this.state.numberPage
-                        const numerOfSurveysOnOnePage = this.state.numerOfSurveysOnOnePage
-
-                       return index >= numberPage * numerOfSurveysOnOnePage &&
-                        index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
-
-
-                    })
-                    .map(item =>
-
-                        <SurveyItem
-                            item={item}
-                            key={item.id}
-                        />
-                    )
-                }
-
-                <ButtonPageMaker
-                    number={numberOfPages}
-                    onChangeNumberPage={this.onChangeNumberPage}
-                />
+                                    return index >= numberPage * numerOfSurveysOnOnePage &&
+                                        index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
 
 
-        </div>
-        </OSHPaper>
+                                })
+                                .map(item =>
+
+                                    <SurveyItem
+                                        item={item}
+                                        key={item.id}
+                                    />
+                                )
+                        }
+
+                    </div>
+                    <ButtonPageMaker
+                        number={numberOfPages}
+                        onChangeNumberPage={this.onChangeNumberPage}
+                    />
+                </div>
+            </OSHPaper>
         )
     }
 
@@ -116,12 +118,12 @@ const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
                 mini={true}
                 iconStyle={styles}
                 key={num}
-                onClick={()=>onChangeNumberPage(num)}
+                onClick={() => onChangeNumberPage(num)}
             >
                 {num + 1}
             </FloatingActionButton>))
 
-    return <div className="page-numbers">{newArrayWithButtons}</div>
+    return <div className="ours-surveys__button-page">{newArrayWithButtons}</div>
 
 }
 
