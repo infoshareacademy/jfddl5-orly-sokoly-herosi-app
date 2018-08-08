@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField';
 import SurveyItem from '../../components/SurveyItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import OSHPaper from '../../components/OSHPaper'
 
 class OursSurveysView extends React.Component {
 
@@ -10,7 +11,8 @@ class OursSurveysView extends React.Component {
         this.state = {
             searchValue: '',
             surveyList: [],
-            numPage: ''
+            numberPage: 0,
+            numerOfSurveysOnOnePage: 10
         }
     }
 
@@ -35,6 +37,12 @@ class OursSurveysView extends React.Component {
         })
     }
 
+    onChangeNumberPage = (number) => {
+        this.setState({
+            numberPage: number
+        })
+    }
+
 
     render() {
         const searchSurveyList = this.state.surveyList
@@ -45,12 +53,11 @@ class OursSurveysView extends React.Component {
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
             })
 
-          const numberOfPages = Math.ceil(searchSurveyList.length/10)
+        const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
 
-        return (<div className="view__ours-survey">
-
-
-            <div>
+        return (
+        <OSHPaper>
+        <div className="view__ours-survey">
                 <h1>Ours Surveys View</h1>
 
                 <TextField
@@ -60,10 +67,19 @@ class OursSurveysView extends React.Component {
                     onChange={this.onChangeSearchValue}
                 />
 
-
-
                 {
-                    searchSurveyList.map(item =>
+                    searchSurveyList
+                    .filter((item, index) => {
+
+                        const numberPage = this.state.numberPage
+                        const numerOfSurveysOnOnePage = this.state.numerOfSurveysOnOnePage
+
+                       return index >= numberPage * numerOfSurveysOnOnePage &&
+                        index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
+
+
+                    })
+                    .map(item =>
 
                         <SurveyItem
                             item={item}
@@ -72,18 +88,21 @@ class OursSurveysView extends React.Component {
                     )
                 }
 
-                <ButtonPageMaker number={numberOfPages} />
+                <ButtonPageMaker
+                    number={numberOfPages}
+                    onChangeNumberPage={this.onChangeNumberPage}
+                />
 
-            </div>
 
         </div>
+        </OSHPaper>
         )
     }
 
 }
 
 
-const ButtonPageMaker = ({ number }) => {
+const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
 
     const styles = {
         color: 'white',
@@ -96,6 +115,8 @@ const ButtonPageMaker = ({ number }) => {
             <FloatingActionButton
                 mini={true}
                 iconStyle={styles}
+                key={num}
+                onClick={()=>onChangeNumberPage(num)}
             >
                 {num + 1}
             </FloatingActionButton>))
