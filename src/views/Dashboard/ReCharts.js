@@ -26,7 +26,7 @@ const ReCharts =()=> (
       <XAxis dataKey="time" />
       <YAxis />
       <Bar label={true} data={1} fill="#3366FF" />
-      {/* <Bar label={true} dataKey="users" fill="#000000" /> */}
+      { <Bar label={true} dataKey="users" fill="yellow" /> }
       
 
     </BarChart>
