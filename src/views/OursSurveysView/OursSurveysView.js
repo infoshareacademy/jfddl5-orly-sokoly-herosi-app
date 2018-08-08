@@ -1,6 +1,6 @@
 import React from 'react'
 import TextField from 'material-ui/TextField';
-import { ListItem } from 'material-ui';
+import SurveyItem from '../../components/SurveyItem'
 
 class OursSurveysView extends React.Component {
 
@@ -8,28 +8,22 @@ class OursSurveysView extends React.Component {
         super(props)
         this.state = {
             searchValue: '',
-            surveyList: null,
-            surveyList2: [
-                { title: 'Survey 1', text: 'text one', id: '123456' },
-                { title: 'App 2', text: 'text two', id: '456777' },
-                { title: 'Search lalala 3', text: 'text three', id: '567889' }
-            ]
+            surveyList: [],
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch('https://survey-app-84f53.firebaseio.com/surveys.json')
             .then(response => response.json())
             .then(data => {
 
-                const firebaseArray = Object.entries(data || [])
+                const firebaseArray = Object.entries(data || {})
                 const firebaseData = firebaseArray.map(([id, value]) => {
                     value.id = id
                     return value
                 })
 
                 this.setState({ surveyList: firebaseData })
-                console.log(data)
             })
     }
 
@@ -42,7 +36,7 @@ class OursSurveysView extends React.Component {
 
     render() {
 
-        const searchSurveyList = this.state.surveyList2
+        const searchSurveyList = this.state.surveyList
             .map(e => e)
             .filter(e => {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
@@ -64,16 +58,15 @@ class OursSurveysView extends React.Component {
                 />
 
                 {
-                    searchSurveyList.map(e =>
+                    searchSurveyList.map(item =>
 
-                        <ListItem
-                            primaryText={e.title}
-                            secondaryText={e.text}
-                            id={e.id}
+                        <SurveyItem
+                            item={item}
+                            key={item.id}
                         />
-
                     )
                 }
+                
             </div>
 
         </div>
