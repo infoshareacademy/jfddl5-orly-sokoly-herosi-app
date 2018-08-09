@@ -19,7 +19,6 @@ class OursSurveysView extends React.Component {
     }
 
     componentDidMount() {
-
         database.ref('surveys')
             .on('value', snapshot => {
                 const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
