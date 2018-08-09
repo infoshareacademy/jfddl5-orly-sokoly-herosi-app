@@ -44,7 +44,7 @@ class NewSurveyView extends React.Component {
         return (
             <div>
                 Title:<input type="text" name="title" onChange={this.titleChange} value={this.state.title} />
-                Your text:<input type="text" name="text-field" onChange={this.textChange} value={this.state.text} />
+                Survey content:<input type="text" name="text-field" onChange={this.textChange} value={this.state.text} />
                 <button onClick={this.createHandler}>Create</button>
             </div>
         )
