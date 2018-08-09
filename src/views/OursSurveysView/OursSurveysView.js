@@ -1,6 +1,9 @@
 import React from 'react'
 import TextField from 'material-ui/TextField';
 import SurveyItem from '../../components/SurveyItem'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import OSHPaper from '../../components/OSHPaper'
+import './oursSurveys.css'
 
 class OursSurveysView extends React.Component {
 
@@ -9,6 +12,8 @@ class OursSurveysView extends React.Component {
         this.state = {
             searchValue: '',
             surveyList: [],
+            numberPage: 0,
+            numerOfSurveysOnOnePage: 10
         }
     }
 
@@ -33,9 +38,14 @@ class OursSurveysView extends React.Component {
         })
     }
 
+    onChangeNumberPage = (number) => {
+        this.setState({
+            numberPage: number
+        })
+    }
+
 
     render() {
-
         const searchSurveyList = this.state.surveyList
             .map(e => e)
             .filter(e => {
@@ -44,34 +54,76 @@ class OursSurveysView extends React.Component {
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
             })
 
-        return (<div className="view__ours-survey">
+        const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
 
 
-            <div>
-                <h1>Ours Surveys View</h1>
+        return (
+            <OSHPaper>
+                <div className="ours-surveys">
+                    <h1 className="ours-surveys__header">Ours Surveys View</h1>
 
-                <TextField
-                    fullWidth={true}
-                    hintText="Find the survey"
-                    value={this.state.searchValue}
-                    onChange={this.onChangeSearchValue}
-                />
+                    <TextField
+                        className={'ours-surveys__searcher-form'}
+                        fullWidth={true}
+                        hintText="Find the survey"
+                        value={this.state.searchValue}
+                        onChange={this.onChangeSearchValue}
+                    />
+                    <div className={'ours-surveys__surveys-list'}>
+                        {
+                            searchSurveyList
+                                .filter((item, index) => {
 
-                {
-                    searchSurveyList.map(item =>
+                                    const numberPage = this.state.numberPage
+                                    const numerOfSurveysOnOnePage = this.state.numerOfSurveysOnOnePage
 
-                        <SurveyItem
-                            item={item}
-                            key={item.id}
-                        />
-                    )
-                }
-                
-            </div>
+                                    return index >= numberPage * numerOfSurveysOnOnePage &&
+                                        index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
 
-        </div>
+
+                                })
+                                .map(item =>
+
+                                    <SurveyItem
+                                        item={item}
+                                        key={item.id}
+                                    />
+                                )
+                        }
+
+                    </div>
+                    <ButtonPageMaker
+                        number={numberOfPages}
+                        onChangeNumberPage={this.onChangeNumberPage}
+                    />
+                </div>
+            </OSHPaper>
         )
     }
+
+}
+
+
+const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
+
+    const styles = {
+        color: 'white',
+    };
+
+    const emptyArray = Array(number).fill(null)
+
+    const newArrayWithButtons = emptyArray
+        .map((e, num) => (
+            <FloatingActionButton
+                mini={true}
+                iconStyle={styles}
+                key={num}
+                onClick={() => onChangeNumberPage(num)}
+            >
+                {num + 1}
+            </FloatingActionButton>))
+
+    return <div className="ours-surveys__button-page">{newArrayWithButtons}</div>
 
 }
 
