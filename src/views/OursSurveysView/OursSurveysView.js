@@ -4,6 +4,7 @@ import SurveyItem from '../../components/SurveyItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import OSHPaper from '../../components/OSHPaper'
 import './oursSurveys.css'
+import { database } from '../../firebaseConfig'
 
 class OursSurveysView extends React.Component {
 
@@ -13,23 +14,24 @@ class OursSurveysView extends React.Component {
             searchValue: '',
             surveyList: [],
             numberPage: 0,
-            numerOfSurveysOnOnePage: 10
+            numerOfSurveysOnOnePage: 10,
+            isFavourite: false
         }
     }
 
     componentDidMount() {
-        fetch('https://survey-app-84f53.firebaseio.com/surveys.json')
-            .then(response => response.json())
-            .then(data => {
-
-                const firebaseArray = Object.entries(data || {})
-                const firebaseData = firebaseArray.map(([id, value]) => {
+        database.ref('surveys')
+            .on('value', snapshot => {
+                const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
                     value.id = id
                     return value
                 })
-
                 this.setState({ surveyList: firebaseData })
             })
+    }
+
+    componentWillUnmount() {
+        database.ref('surveys').off()
     }
 
     onChangeSearchValue = (event, value) => {
@@ -43,6 +45,13 @@ class OursSurveysView extends React.Component {
             numberPage: number
         })
     }
+
+    toggleFav = (id, isFavourite) => {
+        database.ref(`surveys/${id}`).update({
+            isFavourite: !isFavourite
+        })
+    }
+
 
 
     render() {
@@ -87,6 +96,7 @@ class OursSurveysView extends React.Component {
                                     <SurveyItem
                                         item={item}
                                         key={item.id}
+                                        toggleFav={this.toggleFav}
                                     />
                                 )
                         }
