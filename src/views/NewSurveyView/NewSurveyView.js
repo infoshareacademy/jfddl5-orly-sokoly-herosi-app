@@ -22,7 +22,8 @@ class NewSurveyView extends React.Component {
                 title: this.state.title,
                 text: this.state.text,
                 category: this.state.category,
-                isFavourite: this.state.isFavourite
+                isFavourite: this.state.isFavourite,
+                date: Date.now()
             })
         }
 

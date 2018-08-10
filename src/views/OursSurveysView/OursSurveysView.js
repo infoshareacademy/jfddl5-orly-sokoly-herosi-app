@@ -1,5 +1,6 @@
 import React from 'react'
-import TextField from 'material-ui/TextField';
+
+import Search from './Search'
 import SurveyItem from '../../components/SurveyItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import OSHPaper from '../../components/OSHPaper'
@@ -15,7 +16,8 @@ class OursSurveysView extends React.Component {
             surveyList: [],
             numberPage: 0,
             numerOfSurveysOnOnePage: 10,
-            isFavourite: false
+            rangeArray: [],
+            oldestSurveyTimestamp: 0
         }
     }
 
@@ -26,7 +28,10 @@ class OursSurveysView extends React.Component {
                     value.id = id
                     return value
                 })
-                this.setState({ surveyList: firebaseData })
+                this.setState({
+                    surveyList: firebaseData,
+                    oldestSurveyTimestamp: firebaseData.map(e => e.date).sort()[0]
+                })
             })
     }
 
@@ -45,14 +50,11 @@ class OursSurveysView extends React.Component {
             numberPage: number
         })
     }
-
-    toggleFav = (id, isFavourite) => {
-        database.ref(`surveys/${id}`).update({
-            isFavourite: !isFavourite
-        })
+    
+    onChangeRangeArrayHandler = (event) => {
+        console.log(event)
+        this.setState({ rangeArray: event })
     }
-
-
 
     render() {
         const searchSurveyList = this.state.surveyList
@@ -61,7 +63,12 @@ class OursSurveysView extends React.Component {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
                     e.title.toUpperCase().indexOf(this.state.searchValue) >= 0 ||
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
-            })
+            }).filter(e => (
+               e.date >= this.state.rangeArray[0] &&
+               e.date <= this.state.rangeArray[1]
+            ))
+
+
 
         const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
 
@@ -71,13 +78,15 @@ class OursSurveysView extends React.Component {
                 <div className="ours-surveys">
                     <h1 className="ours-surveys__header">Ours Surveys View</h1>
 
-                    <TextField
-                        className={'ours-surveys__searcher-form'}
-                        fullWidth={true}
-                        hintText="Find the survey"
-                        value={this.state.searchValue}
-                        onChange={this.onChangeSearchValue}
+                    <Search
+                        searchValue={this.state.searchValue}
+                        onChangeSearchValue={this.onChangeSearchValue}
+
+                        oldestSurveyTimestamp={this.state.oldestSurveyTimestamp}
+
+                        onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
                     />
+
                     <div className={'ours-surveys__surveys-list'}>
                         {
                             searchSurveyList
@@ -88,8 +97,6 @@ class OursSurveysView extends React.Component {
 
                                     return index >= numberPage * numerOfSurveysOnOnePage &&
                                         index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
-
-
                                 })
                                 .map(item =>
 
