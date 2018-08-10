@@ -1,7 +1,10 @@
 import React from 'react'
+import { ListItem } from 'material-ui'
 
-const FavouritesView = () => (
-    <h1>Favourites Vie Favourites Vieww</h1>
-)
+class FavouritesView extends React.Component {
+    render(){
+        return null
+    }
+}
 
 export default FavouritesView

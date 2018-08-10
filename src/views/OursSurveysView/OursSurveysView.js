@@ -14,7 +14,8 @@ class OursSurveysView extends React.Component {
             searchValue: '',
             surveyList: [],
             numberPage: 0,
-            numerOfSurveysOnOnePage: 10
+            numerOfSurveysOnOnePage: 10,
+            isFavourite: false
         }
     }
 
@@ -44,6 +45,13 @@ class OursSurveysView extends React.Component {
             numberPage: number
         })
     }
+
+    toggleFav = (id, isFavourite) => {
+        database.ref(`surveys/${id}`).update({
+            isFavourite: !isFavourite
+        })
+    }
+
 
 
     render() {
@@ -88,6 +96,7 @@ class OursSurveysView extends React.Component {
                                     <SurveyItem
                                         item={item}
                                         key={item.id}
+                                        toggleFav={this.toggleFav}
                                     />
                                 )
                         }
