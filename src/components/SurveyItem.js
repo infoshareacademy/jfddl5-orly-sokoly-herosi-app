@@ -1,11 +1,28 @@
 import React from 'react'
+
 import { ListItem } from 'material-ui'
 import FavIcon from 'material-ui/svg-icons/action/favorite'
 import FavIconBorder from 'material-ui/svg-icons/action/favorite-border'
+import { Link } from 'react-router-dom'
+
 
 const SurveyItem = (props) => (
+    // const linkTitle = 
+
     <ListItem
-        primaryText={props.item.title}
+        primaryText={
+            <Link
+                to={`/survey/${props.item.id}`}
+                style={{ 
+                    textDecoration: 'none',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: 'black'
+                }}
+            >
+                {props.item.title}
+            </Link>
+        }
         secondaryText={props.item.text}
         checked={props.item.isFavourite}
         rightIcon={
