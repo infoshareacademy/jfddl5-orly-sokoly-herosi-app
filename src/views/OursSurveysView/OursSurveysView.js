@@ -17,7 +17,8 @@ class OursSurveysView extends React.Component {
             numberPage: 0,
             numerOfSurveysOnOnePage: 10,
             rangeArray: [],
-            oldestSurveyTimestamp: 0
+            oldestSurveyTimestamp: 0,
+            isFavourite: false
         }
     }
 
@@ -103,7 +104,6 @@ class OursSurveysView extends React.Component {
                                     <SurveyItem
                                         item={item}
                                         key={item.id}
-                                        toggleFav={this.toggleFav}
                                     />
                                 )
                         }
