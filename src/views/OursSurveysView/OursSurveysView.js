@@ -17,7 +17,8 @@ class OursSurveysView extends React.Component {
             numberPage: 0,
             numerOfSurveysOnOnePage: 10,
             rangeArray: [],
-            oldestSurveyTimestamp: 0
+            oldestSurveyTimestamp: 0,
+            isFavourite: false
         }
     }
 
@@ -55,6 +56,13 @@ class OursSurveysView extends React.Component {
         console.log(event)
         this.setState({ rangeArray: event })
     }
+
+    // toggleFav = (id, isFavourite) => {
+    //     database.ref(`surveys/${id}`).update({
+    //         isFavourite: !isFavourite
+    //     })
+    // }
+
 
 
     render() {
