@@ -51,19 +51,11 @@ class OursSurveysView extends React.Component {
             numberPage: number
         })
     }
-
+    
     onChangeRangeArrayHandler = (event) => {
         console.log(event)
         this.setState({ rangeArray: event })
     }
-
-    // toggleFav = (id, isFavourite) => {
-    //     database.ref(`surveys/${id}`).update({
-    //         isFavourite: !isFavourite
-    //     })
-    // }
-
-
 
     render() {
         const searchSurveyList = this.state.surveyList
