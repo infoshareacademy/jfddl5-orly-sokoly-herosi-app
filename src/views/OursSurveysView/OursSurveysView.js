@@ -1,5 +1,6 @@
 import React from 'react'
-import TextField from 'material-ui/TextField';
+
+import Search from './Search'
 import SurveyItem from '../../components/SurveyItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import OSHPaper from '../../components/OSHPaper'
@@ -63,13 +64,13 @@ class OursSurveysView extends React.Component {
                 <div className="ours-surveys">
                     <h1 className="ours-surveys__header">Ours Surveys View</h1>
 
-                    <TextField
-                        className={'ours-surveys__searcher-form'}
-                        fullWidth={true}
-                        hintText="Find the survey"
-                        value={this.state.searchValue}
-                        onChange={this.onChangeSearchValue}
+                    <Search
+                        searchValue={this.state.searchValue}
+                        onChangeSearchValue={this.onChangeSearchValue}
+
+                        oldestSurveyTimestamp={15000000}
                     />
+
                     <div className={'ours-surveys__surveys-list'}>
                         {
                             searchSurveyList
