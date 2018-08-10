@@ -15,7 +15,9 @@ class OursSurveysView extends React.Component {
             searchValue: '',
             surveyList: [],
             numberPage: 0,
-            numerOfSurveysOnOnePage: 10
+            numerOfSurveysOnOnePage: 10,
+            rangeArray: [],
+            oldestSurveyTimestamp: 0
         }
     }
 
@@ -26,7 +28,10 @@ class OursSurveysView extends React.Component {
                     value.id = id
                     return value
                 })
-                this.setState({ surveyList: firebaseData })
+                this.setState({
+                    surveyList: firebaseData,
+                    oldestSurveyTimestamp: firebaseData.map(e => e.date).sort()[0]
+                })
             })
     }
 
@@ -46,6 +51,11 @@ class OursSurveysView extends React.Component {
         })
     }
 
+    onChangeRangeArrayHandler = (event) => {
+        console.log(event)
+        this.setState({ rangeArray: event })
+    }
+
 
     render() {
         const searchSurveyList = this.state.surveyList
@@ -54,7 +64,12 @@ class OursSurveysView extends React.Component {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
                     e.title.toUpperCase().indexOf(this.state.searchValue) >= 0 ||
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
-            })
+            }).filter(e => (
+               e.date >= this.state.rangeArray[0] &&
+               e.date <= this.state.rangeArray[1]
+            ))
+
+
 
         const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
 
@@ -68,7 +83,9 @@ class OursSurveysView extends React.Component {
                         searchValue={this.state.searchValue}
                         onChangeSearchValue={this.onChangeSearchValue}
 
-                        oldestSurveyTimestamp={15000000}
+                        oldestSurveyTimestamp={this.state.oldestSurveyTimestamp}
+
+                        onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
                     />
 
                     <div className={'ours-surveys__surveys-list'}>
@@ -81,8 +98,6 @@ class OursSurveysView extends React.Component {
 
                                     return index >= numberPage * numerOfSurveysOnOnePage &&
                                         index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
-
-
                                 })
                                 .map(item =>
 

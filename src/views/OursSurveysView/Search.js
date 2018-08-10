@@ -16,7 +16,7 @@ const Search = (props) => (
         min={props.oldestSurveyTimestamp}
         max={Date.now()}
         defaultValue={[props.oldestSurveyTimestamp,Date.now()]}
-        onChange={console.log}
+        onChange={props.onChangeRangeArrayHandler}
         allowCross={false}
     />
 </div>
