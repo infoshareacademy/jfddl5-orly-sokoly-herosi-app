@@ -50,12 +50,11 @@ class OursSurveysView extends React.Component {
             numberPage: number
         })
     }
-
+    
     onChangeRangeArrayHandler = (event) => {
         console.log(event)
         this.setState({ rangeArray: event })
     }
-
 
     render() {
         const searchSurveyList = this.state.surveyList
@@ -104,6 +103,7 @@ class OursSurveysView extends React.Component {
                                     <SurveyItem
                                         item={item}
                                         key={item.id}
+                                        toggleFav={this.toggleFav}
                                     />
                                 )
                         }
