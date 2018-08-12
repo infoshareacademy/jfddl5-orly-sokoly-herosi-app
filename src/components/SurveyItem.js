@@ -35,20 +35,21 @@ const SurveyItem = (props) => {
         secondaryText={props.item.text}
         checked={props.item.isFavourite}
         rightIcon={
-            props.item.isFavourite == true ?
-
-                <FavIconBorder
-                    onClick={() => {
-                        toggleFav(props.item.id, props.item.isFavourite)
-                    }}
-
-                /> :
+            props.item.isFavourite === true ?
                 <FavIcon
                     onClick={() => {
                         toggleFav(props.item.id, props.item.isFavourite)
 
                     }}
-                />}
+                />
+            :
+            <FavIconBorder
+            onClick={() => {
+                toggleFav(props.item.id, props.item.isFavourite)
+            }}
+
+        />
+            }
     />)
                 }
 

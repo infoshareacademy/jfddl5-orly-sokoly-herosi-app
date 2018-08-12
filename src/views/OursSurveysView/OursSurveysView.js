@@ -53,7 +53,6 @@ class OursSurveysView extends React.Component {
     }
     
     onChangeRangeArrayHandler = (event) => {
-        console.log(event)
         this.setState({ rangeArray: event })
     }
 
