@@ -1,11 +1,10 @@
 import React from 'react'
 
 import Search from './Search'
-import SurveyItem from '../../components/SurveyItem'
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import OSHPaper from '../../components/OSHPaper'
 import './oursSurveys.css'
 import { database } from '../../firebaseConfig'
+import SurveyList from '../../components/SurveyList';
 
 class OursSurveysView extends React.Component {
 
@@ -14,8 +13,6 @@ class OursSurveysView extends React.Component {
         this.state = {
             searchValue: '',
             surveyList: [],
-            numberPage: 0,
-            numerOfSurveysOnOnePage: 10,
             rangeArray: [],
             oldestSurveyTimestamp: 0,
             isFavourite: false
@@ -46,14 +43,7 @@ class OursSurveysView extends React.Component {
         })
     }
 
-    onChangeNumberPage = (number) => {
-        this.setState({
-            numberPage: number
-        })
-    }
-    
     onChangeRangeArrayHandler = (event) => {
-        console.log(event)
         this.setState({ rangeArray: event })
     }
 
@@ -65,14 +55,9 @@ class OursSurveysView extends React.Component {
                     e.title.toUpperCase().indexOf(this.state.searchValue) >= 0 ||
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
             }).filter(e => (
-               e.date >= this.state.rangeArray[0] &&
-               e.date <= this.state.rangeArray[1]
+                e.date >= this.state.rangeArray[0] &&
+                e.date <= this.state.rangeArray[1]
             ))
-
-
-
-        const numberOfPages = Math.ceil(searchSurveyList.length / this.state.numerOfSurveysOnOnePage)
-
 
         return (
             <OSHPaper>
@@ -88,61 +73,17 @@ class OursSurveysView extends React.Component {
                         onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
                     />
 
-                    <div className={'ours-surveys__surveys-list'}>
-                        {
-                            searchSurveyList
-                                .filter((item, index) => {
-
-                                    const numberPage = this.state.numberPage
-                                    const numerOfSurveysOnOnePage = this.state.numerOfSurveysOnOnePage
-
-                                    return index >= numberPage * numerOfSurveysOnOnePage &&
-                                        index <= ((numberPage + 1) * numerOfSurveysOnOnePage) - 1
-                                })
-                                .map(item =>
-
-                                    <SurveyItem
-                                        item={item}
-                                        key={item.id}
-                                    />
-                                )
-                        }
+                    <SurveyList 
+                        surveysArray={searchSurveyList}
+                    />
 
                     </div>
-                    <ButtonPageMaker
-                        number={numberOfPages}
-                        onChangeNumberPage={this.onChangeNumberPage}
-                    />
-                </div>
             </OSHPaper>
-        )
-    }
-
-}
-
-
-const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
-
-    const styles = {
-        color: 'white',
-    };
-
-    const emptyArray = Array(number).fill(null)
-
-    const newArrayWithButtons = emptyArray
-        .map((e, num) => (
-            <FloatingActionButton
-                mini={true}
-                iconStyle={styles}
-                key={num}
-                onClick={() => onChangeNumberPage(num)}
-            >
-                {num + 1}
-            </FloatingActionButton>))
-
-    return <div className="ours-surveys__button-page">{newArrayWithButtons}</div>
-
-}
-
-
+                )
+            }
+        
+        }
+        
+        
+        
 export default OursSurveysView

@@ -1,43 +1,53 @@
 import React from 'react'
-import mapObjectToArray from '../../utils/mapObjectToArray'
-import SurveyItem from '../../components/SurveyItem'
+import OSHPaper from '../../components/OSHPaper'
+import { database } from '../../firebaseConfig'
+import SurveyList from '../../components/SurveyList';
 
-class FavouritesView extends React.Component {
+class FavouriteView extends React.Component {
 
-    state = {
-        surveys: null
+    constructor(props) {
+        super(props)
+        this.state = {
+            surveyList: [],
+            isFavourite: false
+        }
     }
 
     componentDidMount() {
-        fetch('https://survey-app-84f53.firebaseio.com/surveys/.json')
-            .then(response => response.json())
-            .then(data => {
+        database.ref('surveys')
+            .on('value', snapshot => {
+                const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
+                    value.id = id
+                    return value
+                })
                 this.setState({
-                    surveys: mapObjectToArray(data)
+                    surveyList: firebaseData,
                 })
             })
     }
 
+    componentWillUnmount() {
+        database.ref('surveys').off()
+    }
+
 
     render() {
-
-        const filteredSuveys = this.state.surveys && this.state.surveys.filter(element => element.isFavourite === true)
-            .map(item =>
-
-                <SurveyItem
-                    item={item}
-                    key={item.id}
-                />
-            )
+        const favouriteSurveys = this.state.surveyList.map(e => e).filter(e => e.isFavourite === true)
 
         return (
-            <div>
-                {filteredSuveys}
-            </div>
+            <OSHPaper>
+                <div className="favourite-surveys">
+                    <h1 className="favourite-surveys__header">Favourites Surveys</h1>
 
+                    <SurveyList
+                        surveysArray={favouriteSurveys}
+                    />
+
+                </div>
+            </OSHPaper>
         )
     }
+
 }
 
-
-export default FavouritesView
+export default FavouriteView
