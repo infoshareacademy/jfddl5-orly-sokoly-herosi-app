@@ -1,8 +1,14 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import { Range } from 'rc-slider'
+import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Category from './Category'
+
+import 'rc-slider/assets/index.css'
+import moment from 'moment'
+
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
 
 const Search = (props) => (
     <div>
@@ -23,6 +29,7 @@ const Search = (props) => (
             defaultValue={[props.oldestSurveyTimestamp, Date.now()]}
             onChange={props.onChangeRangeArrayHandler}
             allowCross={false}
+            tipFormatter={value => `${moment(value).format('LL')}`}
         />
     </div>
 )
