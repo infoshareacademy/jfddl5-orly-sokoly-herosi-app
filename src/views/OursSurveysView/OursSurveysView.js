@@ -15,7 +15,8 @@ class OursSurveysView extends React.Component {
             surveyList: [],
             rangeArray: [],
             oldestSurveyTimestamp: 0,
-            isFavourite: false
+            isFavourite: false,
+            category: 'All'
         }
     }
 
@@ -47,6 +48,14 @@ class OursSurveysView extends React.Component {
         this.setState({ rangeArray: event })
     }
 
+    onCategoryChangeHandler = (event, index, value) => {
+        const choosedCategory = value
+        this.setState({
+            category: choosedCategory
+        });
+    }
+
+
     render() {
         const searchSurveyList = this.state.surveyList
             .map(e => e)
@@ -54,7 +63,10 @@ class OursSurveysView extends React.Component {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
                     e.title.toUpperCase().indexOf(this.state.searchValue) >= 0 ||
                     e.title.toLowerCase().indexOf(this.state.searchValue) >= 0
-            }).filter(e => (
+            }).filter(e => {
+                if (this.state.category === 'All') { return e === e } else { return e.category === this.state.category }
+            })
+            .filter(e => (
                 e.date >= this.state.rangeArray[0] &&
                 e.date <= this.state.rangeArray[1]
             ))
@@ -71,19 +83,22 @@ class OursSurveysView extends React.Component {
                         oldestSurveyTimestamp={this.state.oldestSurveyTimestamp}
 
                         onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
+
+                        onCategoryChangeHandler={this.onCategoryChangeHandler}
+                        currentCategory={this.state.category}
                     />
 
-                    <SurveyList 
+                    <SurveyList
                         surveysArray={searchSurveyList}
                     />
 
-                    </div>
+                </div>
             </OSHPaper>
-                )
-            }
-        
-        }
-        
-        
-        
+        )
+    }
+
+}
+
+
+
 export default OursSurveysView
