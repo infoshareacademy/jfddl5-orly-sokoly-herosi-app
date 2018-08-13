@@ -83,6 +83,7 @@ class OursSurveysView extends React.Component {
                         oldestSurveyTimestamp={this.state.oldestSurveyTimestamp}
 
                         onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
+                        rangeArray={this.state.rangeArray}
 
                         onCategoryChangeHandler={this.onCategoryChangeHandler}
                         currentCategory={this.state.category}

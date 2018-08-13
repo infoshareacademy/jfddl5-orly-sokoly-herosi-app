@@ -23,6 +23,10 @@ const Search = (props) => (
             onCategoryChangeHandler={props.onCategoryChangeHandler}
             currentCategory={props.currentCategory}
         />
+        <div className='range-date'>
+        <p>{moment(props.rangeArray[0]).format('LL')}</p>
+        <p>{moment(props.rangeArray[1]).format('LL')}</p>
+        </div>
         <Range
             min={props.oldestSurveyTimestamp}
             max={Date.now()}
