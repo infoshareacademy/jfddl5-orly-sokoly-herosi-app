@@ -47,6 +47,7 @@ class SurveyList extends React.Component {
                 </div>
                 <ButtonPageMaker
                     number={numberOfPages}
+                    numberPage={this.state.numberPage}
                     onChangeNumberPage={this.onChangeNumberPage}
                 />
             </div>
@@ -54,7 +55,7 @@ class SurveyList extends React.Component {
     }
 }
 
-const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
+const ButtonPageMaker = ({ number, numberPage, onChangeNumberPage }) => {
 
     const styles = {
         color: 'white',
@@ -69,6 +70,7 @@ const ButtonPageMaker = ({ number, onChangeNumberPage }) => {
                 iconStyle={styles}
                 key={num}
                 onClick={() => onChangeNumberPage(num)}
+                disabled={num === numberPage ? true : false}
             >
                 {num + 1}
             </FloatingActionButton>))
