@@ -5,6 +5,7 @@ import OSHPaper from '../../components/OSHPaper'
 import './oursSurveys.css'
 import { database } from '../../firebaseConfig'
 import SurveyList from '../../components/SurveyList';
+import Loading from '../../components/Loading';
 
 class OursSurveysView extends React.Component {
 
@@ -12,7 +13,7 @@ class OursSurveysView extends React.Component {
         super(props)
         this.state = {
             searchValue: '',
-            surveyList: [],
+            surveyList: null,
             rangeArray: [],
             oldestSurveyTimestamp: 0,
             isFavourite: false,
@@ -57,7 +58,7 @@ class OursSurveysView extends React.Component {
 
 
     render() {
-        const searchSurveyList = this.state.surveyList
+        const searchSurveyList = this.state.surveyList && this.state.surveyList
             .map(e => e)
             .filter(e => {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
@@ -89,10 +90,17 @@ class OursSurveysView extends React.Component {
                         currentCategory={this.state.category}
                     />
 
-                    <SurveyList
-                        surveysArray={searchSurveyList}
-                    />
-
+                    {
+                        searchSurveyList ?
+                            searchSurveyList.length !== 0 ?
+                                <SurveyList
+                                    surveysArray={searchSurveyList}
+                                />
+                                :
+                                <h2>There are no surveys to show</h2>
+                            :
+                            <Loading />
+                    }
                 </div>
             </OSHPaper>
         )
