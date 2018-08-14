@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import OSHPaper from '../../components/OSHPaper'
 import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar';
 
 import Category from './Category'
 
@@ -12,7 +13,8 @@ class NewSurveyView extends React.Component {
         title: '',
         text: '',
         category: 'People',
-        isFavourite: false
+        isFavourite: false,
+        isSnackBarOpen: false
     }
 
     createHandler = () => {
@@ -35,26 +37,42 @@ class NewSurveyView extends React.Component {
                     text: '',
                     category: '',
                 })
+                this.handleSnackBarOpen()
             })
-    }
 
+    }
+    
     titleChange = (event) => {
         const fieldTitle = event.target.value
         this.setState({
             title: fieldTitle
-        });
+        })
     }
     textChange = (event) => {
         const fieldText = event.target.value
         this.setState({
             text: fieldText
-        });
+        })
     }
     onCategoryChangeHandler = (event, index, value) => {
         const choosedCategory = value
         this.setState({
             category: choosedCategory
-        });
+        })
+    }
+
+    handleSnackBarOpen = () => {
+        this.setState({
+            isSnackBarOpen: true
+        })
+    }
+
+
+
+    handleSnackBarClose = () => {
+        this.setState({
+            isSnackBarOpen: false
+        })
     }
 
     render() {
@@ -84,14 +102,21 @@ class NewSurveyView extends React.Component {
                         onCategoryChangeHandler={this.onCategoryChangeHandler}
                         currentCategory={this.state.category}
                     />
-                    <RaisedButton
-                        label="Create Survey"
-                        fullWidth={true}
-                        primary={true}
-                        style={style}
-                        onClick={this.createHandler}
-                    />
-
+                    <div>
+                        <RaisedButton
+                            label="Create Survey"
+                            fullWidth={true}
+                            primary={true}
+                            style={style}
+                            onClick={this.createHandler}
+                        />
+                        <Snackbar
+                            open={this.state.isSnackBarOpen}
+                            message="Survey added to your array"
+                            autoHideDuration={4000}
+                            onRequestClose={this.handleSnackBarClose}
+                        />
+                    </div>
                 </OSHPaper>
             </div>
         )
