@@ -5,7 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import Category from './Category'
 
-const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
+import { connect } from 'react-redux'
+import { saveNewSurvey } from '../../state/surveys'
 
 class NewSurveyView extends React.Component {
     state = {
@@ -16,26 +17,19 @@ class NewSurveyView extends React.Component {
     }
 
     createHandler = () => {
-        const request = {
-            method: 'POST',
-            body: JSON.stringify({
-                title: this.state.title,
-                text: this.state.text,
-                category: this.state.category,
-                isFavourite: this.state.isFavourite,
-                date: Date.now()
+        this.props._saveNewSurvey({
+            title: this.state.title,
+            text: this.state.text,
+            category: this.state.category,
+            isFavourite: this.state.isFavourite,
+            date: Date.now()
+        }).then(() => {
+            this.setState({
+                title: '',
+                text: '',
+                category: 'People'
             })
-        }
-
-        fetch(`${myApiUrl}.json`, request)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    title: '',
-                    text: '',
-                    category: '',
-                })
-            })
+        })
     }
 
     titleChange = (event) => {
@@ -103,4 +97,11 @@ const style = {
     margin: 12,
 };
 
-export default NewSurveyView
+const mapDispatchToProps = dispatch => ({
+    _saveNewSurvey: newSurveyData => dispatch(saveNewSurvey(newSurveyData))
+})
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(NewSurveyView)
