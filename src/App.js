@@ -7,6 +7,7 @@ import FavouritesView from './views/FavouritesView'
 import Dashboard from './views/Dashboard/Dashboard'
 import Navigation from './Navigation'
 import FinalSurveyView from './views/FinalSurveyView';
+import SnackBar from './components/SnackBar'
 
 class App extends React.Component {
 
@@ -27,6 +28,8 @@ class App extends React.Component {
             <Route path={'/survey/:id'} component={FinalSurveyView} />
           </div>
         </Router>
+
+        <SnackBar  />
       </div>
     );
   }
