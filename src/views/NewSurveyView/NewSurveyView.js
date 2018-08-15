@@ -7,6 +7,7 @@ import Category from './Category'
 
 import { connect } from 'react-redux'
 import { saveNewSurvey } from '../../state/surveys'
+import { setOpenAction } from '../../state/snackBar'
 
 class NewSurveyView extends React.Component {
     state = {
@@ -17,6 +18,9 @@ class NewSurveyView extends React.Component {
     }
 
     createHandler = () => {
+        this.state.title !== '' &&
+        this.state.text !== '' 
+        ?
         this.props._saveNewSurvey({
             title: this.state.title,
             text: this.state.text,
@@ -29,7 +33,10 @@ class NewSurveyView extends React.Component {
                 text: '',
                 category: 'People'
             })
+            this.props._setOpenAction()
         })
+        :
+        null
     }
 
     titleChange = (event) => {
@@ -98,7 +105,8 @@ const style = {
 };
 
 const mapDispatchToProps = dispatch => ({
-    _saveNewSurvey: newSurveyData => dispatch(saveNewSurvey(newSurveyData))
+    _saveNewSurvey: newSurveyData => dispatch(saveNewSurvey(newSurveyData)),
+    _setOpenAction: () => dispatch(setOpenAction('New survey was added!'))
 })
 
 export default connect(
