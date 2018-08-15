@@ -20,7 +20,7 @@ const SurveyItem = (props) => {
         <ListItem
             primaryText={
                 <Link
-                    to={`/survey/${props.item.id}`}
+                    to={`/survey/${props.item.id}/${props.goBackLink}`}
                     style={{
                         textDecoration: 'none',
                         textAlign: 'center',

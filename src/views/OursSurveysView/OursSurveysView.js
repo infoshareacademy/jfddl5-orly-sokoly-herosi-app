@@ -95,6 +95,7 @@ class OursSurveysView extends React.Component {
                             searchSurveyList.length !== 0 ?
                                 <SurveyList
                                     surveysArray={searchSurveyList}
+                                    goBackLink={'ours-surveys'}
                                 />
                                 :
                                 <h2>There are no surveys to show</h2>

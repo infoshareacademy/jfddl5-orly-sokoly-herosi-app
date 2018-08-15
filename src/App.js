@@ -25,7 +25,7 @@ class App extends React.Component {
             <Route path={'/ours-surveys'} component={OursSurveysView} />
             <Route path={'/new-survey'} component={NewSurveyView} />
             <Route path={'/favourites'} component={FavouritesView} />
-            <Route path={'/survey/:id'} component={FinalSurveyView} />
+            <Route path={'/survey/:id/:goBackLink'} component={FinalSurveyView} />
           </div>
         </Router>
 

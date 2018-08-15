@@ -1,56 +1,40 @@
-import React from 'react'
-import { database } from '../../firebaseConfig'
-import Loading from '../../components/Loading'
+import React from 'react';
 import OSHPaper from '../../components/OSHPaper';
+import Loading from '../../components/Loading'
+import { Link } from 'react-router-dom'
 
-class FinalSurveyView extends React.Component {
+import { connect } from 'react-redux';
 
-    state = {
-        survey: null,
-        isNotFound: false
-    }
+const FinalSurveyView = (props) => {
 
-    componentDidMount() {
+    const surveyList = props._surveyList
+    const id = props.match.params.id
+    const goBackLink = props.match.params.goBackLink
 
-        const id = this.props.match.params.id
+    const survey = surveyList && surveyList.find(e => e.id === id)
 
-        database.ref(`/surveys/${id}`)
-            .on('value', snapshot => {
-                if (!snapshot.val()) {
-                    this.setState({ isNotFound: true })
-                    return
-                }
-
-                this.setState({ survey: snapshot.val() })
-            })
-    }
-
-    componentWillUnmount() {
-        const id = this.props.match.params.id
-        database.ref(`surveys/:${id}`).off()
-    }
-
-    render() {
-        return (
-            <OSHPaper>
-                <div>
-                    {this.state.survey ?
-                        <div>
-                            <h1 className="final-view__header"> The survey you choose: </h1>
-                            <h3>Survey Title: {this.state.survey.title} </h3>
-                            <div>Survey Content: {this.state.survey.text}</div>
-                            {/* <div>Survey Category: {this.state.survey.category} </div> */}
-                        </div>
-                        :
-                        this.state.isNotFound ?
-                            'Not found'
-                            :
-                            <Loading />}
-                </div>
-            </OSHPaper>
-        )
-    }
+    return (
+        <OSHPaper>
+            {
+                survey ?
+                    <div>
+                        <h1 className="final-view__header"> The survey you choose: </h1>
+                        <h2>Title: {survey.title} </h2>
+                        <h3>Description: {survey.text}</h3>
+                        <div>Category: {survey.category} </div>
+                    
+                    <Link to={'/'+goBackLink} >Go to previous page </Link>
+                    
+                    </div>
+                    :
+                    <Loading />
+            }
+        </OSHPaper>
+    )
 }
 
+const mapStateToProps = state => ({
+    _surveyList: state.surveys.surveyList
+})
 
-export default FinalSurveyView
+export default connect(mapStateToProps, null)(FinalSurveyView)
