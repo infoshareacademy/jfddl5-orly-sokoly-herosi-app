@@ -1,30 +1,34 @@
-// const PUT_ANSWERS = 'answers/PUT_ANSWERS'
-// const SAVE_ANSWER = 'answers/SAVE_ANSWER'
-// const INIT_ANSWER_ARRAY = 'answers'
+import { database } from '../firebaseConfig'
 
-// // const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
+const GET_SURVEY = 'answers/PUT_SURVEY'
 
-// const initialState = ({
-//     answersArray = []
-// })
+const initialState = {
+    survey: null,
+    answersArray: null
+}
 
-// const putAnswersAction = () => ({
+const getSurveyAction = (survey) => ({
+    type: GET_SURVEY,
+    survey
+})
 
-// })
+export const loadingSurvey = (id) => (dispatch, getState) => {
+    database
+        .ref(`surveys/${id}`)
+        .on('value', snapshot => {
+            const firebaseData = snapshot.val() || {}
+            dispatch(getSurveyAction(firebaseData))
+        })
+}
 
-// const saveAnswerAction = (index, text) => ({
-//     type: SAVE_ANSWER,
-//     index,
-//     text
-// })
-
-// export default (state, action) => {
-//     switch(action.type){
-//         case SAVE_ANSWER:
-//         return {
-
-//         }
-//         default: 
-//         state
-//     }
-// }
+export default (state = initialState, action) => {
+    switch (action.type) {
+        case GET_SURVEY:
+            return {
+                ...state,
+                survey: action.survey
+            }
+        default:
+            return state
+    }
+}

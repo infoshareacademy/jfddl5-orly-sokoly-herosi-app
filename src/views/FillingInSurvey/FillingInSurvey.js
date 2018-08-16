@@ -5,68 +5,85 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { setOpenAction } from '../../state/snackBar'
+import { loadingSurvey } from '../../state/answers'
 
-const FillingInSurvey = (props) => {
 
-    const surveyList = props._surveyList
-    const id = props.match.params.id
+class FillingInSurvey extends React.Component {
+    state = {
+        answers: {}
+    }
 
-    const survey = surveyList && surveyList.find(e => e.id === id)
+    componentDidMount = () => {
+        this.props._loadingSurvey(this.props.match.params.id)
+    }
 
-    const questionsObject = survey && survey.questions
-
-    const questionsArray = questionsObject &&
-        Object.entries(questionsObject)
-            .map(([id, question]) => {
-                let e = {}
-                e.id = id
-                e.question = question
-                return e
-            }).map(e => {
-                return (
-                    <OSHPaper>
-                        <h2>{e.question}</h2>
-                        <TextField 
-                        type={'text'}
-                        key={e.id}
-                        floatingLabelText={'Write your answer'}
-                        />
-                    </OSHPaper>
-                )
-            })
-
-    return (
-        <OSHPaper>
-            {
-                survey ?
-                    <div>
-                        <h2>{survey.title} </h2>
-                        <h3>Description: {survey.text}</h3>
-                        {
-                            questionsArray
-                        }
-                        <RaisedButton
-                            primary={true}
-                            fullWidth={true}
-                            label="Send your answers!"
-                            onClick={() => null }
-                        />
-                    </div>
-                    :
-                    <Loading />
+    onAnswerChanged = (event, questionId) => {
+        this.setState({
+            answers: {
+                ...this.state.answers,
+                [questionId]: event.target.value
             }
+        })
+    }
 
-        </OSHPaper>
-    );
+    render() {
+        const survey = this.props._survey
+        const questionsObject = survey && survey.questions
+        const questionsArray = questionsObject &&
+            Object.entries(questionsObject)
+                .map(([id, question]) => {
+                    let e = {}
+                    e.id = id
+                    e.question = question
+                    return e
+                }).map(e => {
+                    return (
+                        <OSHPaper
+                            key={e.id}
+                        >
+                            <h2>{e.question}</h2>
+                            <TextField
+                                value={this.state.answers[e.id] || ''}
+                                onChange={(event) => this.onAnswerChanged(event, e.id)}
+                                type={'text'}
+                                floatingLabelText={'Write your answer'}
+                            />
+                        </OSHPaper>
+                    )
+                })
 
+        return (
+            <OSHPaper>
+                {
+                    survey ?
+                        <div>
+                            <h2> {survey.title} </h2>
+                            <h3>Description: {survey.text}</h3>
+                            {
+                                questionsArray
+                            }
+                            <RaisedButton
+                                primary={true}
+                                fullWidth={true}
+                                label="Send your answers!"
+                                onClick={() => null}
+                            />
+                        </div >
+                        :
+                        <Loading />
+                }
+            </OSHPaper >
+        )
+    }
 }
 
 const mapStateToProps = state => ({
-    _surveyList: state.surveys.surveyList
+    _survey: state.answers.survey
 })
 
 const mapDispatchToProps = dispatch => ({
-    // _saveAnswers: answersArray => dispatch(saveAnswers(answersArray)),
+    _loadingSurvey: (id) => dispatch(loadingSurvey(id)),
+
     _setOpenAction: () => dispatch(setOpenAction('Thank you for your time!'))
 })
 
