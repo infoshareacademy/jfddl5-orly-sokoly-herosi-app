@@ -14,29 +14,33 @@ class NewSurveyView extends React.Component {
         title: '',
         text: '',
         category: 'People',
-        isFavourite: false
+        isFavourite: false,
+        questions: [
+            { questionText: 'dupa' },
+            { questionText: '' },
+        ]
     }
 
     createHandler = () => {
         this.state.title !== '' &&
-        this.state.text !== '' 
-        ?
-        this.props._saveNewSurvey({
-            title: this.state.title,
-            text: this.state.text,
-            category: this.state.category,
-            isFavourite: this.state.isFavourite,
-            date: Date.now()
-        }).then(() => {
-            this.setState({
-                title: '',
-                text: '',
-                category: 'People'
+            this.state.text !== ''
+            ?
+            this.props._saveNewSurvey({
+                title: this.state.title,
+                text: this.state.text,
+                category: this.state.category,
+                isFavourite: this.state.isFavourite,
+                date: Date.now()
+            }).then(() => {
+                this.setState({
+                    title: '',
+                    text: '',
+                    category: 'People'
+                })
+                this.props._setOpenAction()
             })
-            this.props._setOpenAction()
-        })
-        :
-        null
+            :
+            null
     }
 
     titleChange = (event) => {
@@ -58,10 +62,28 @@ class NewSurveyView extends React.Component {
         });
     }
 
+    addNewQuestion = () => this.setState({
+        questions: this.state.questions.concat(
+            { questionText: ''}
+        )
+    })
+
+    onQuestionChangeHandler = (event, index) => this.setState({
+        questions: this.state.questions.map((question, i) => (
+            index === i ?
+                {
+                    ...question,
+                    questionText: event.target.value
+                }
+                :
+                question
+        ))
+    })
+
     render() {
         return (
             <div >
-                <OSHPaper >
+                <OSHPaper>
                     <h1>Create new survey</h1>
                     < TextField
                         hintText="Enter title"
@@ -74,7 +96,7 @@ class NewSurveyView extends React.Component {
                     /><br />
                     < TextField
                         hintText="Enter contents survey"
-                        floatingLabelText="Content"
+                        floatingLabelText="Short describe"
                         fullWidth={true}
                         type="text"
                         name="text-field"
@@ -85,15 +107,44 @@ class NewSurveyView extends React.Component {
                         onCategoryChangeHandler={this.onCategoryChangeHandler}
                         currentCategory={this.state.category}
                     />
-                    <RaisedButton
-                        label="Create Survey"
-                        fullWidth={true}
-                        primary={true}
-                        style={style}
-                        onClick={this.createHandler}
-                    />
-
                 </OSHPaper>
+                <div>
+                    {
+                        this.state.questions.map((question, i) => (
+                            <OSHPaper>
+                                <h4>{i}</h4>
+                                <TextField
+                                    value={question.questionText}
+                                    onChange={(event) => this.onQuestionChangeHandler(event, i)}
+                                    hintText="Enter question"
+                                    floatingLabelText="Question"
+                                    fullWidth={true}
+                                    type="text"
+                                    name="title"
+                                />
+                            </OSHPaper>
+                        ))
+                    }
+
+                </div>
+                <div>
+                    <OSHPaper>
+                        <RaisedButton
+                            onClick={this.addNewQuestion}
+                            label="Add next question"
+                            fullWidth={true}
+                            primary={true}
+                            style={style}
+                        />
+                        <RaisedButton
+                            label="Create Survey"
+                            fullWidth={true}
+                            secondary={true}
+                            style={style}
+                            onClick={this.createHandler}
+                        />
+                    </OSHPaper>
+                </div>
             </div>
         )
     }
