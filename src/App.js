@@ -19,22 +19,29 @@ class App extends React.Component {
         <Router>
           <div>
 
-            <Navigation />
 
-            <Route path={'/'} exact component={Dashboard} />
-            <Route path={'/dashboard'} component={Dashboard} />
-            <Route path={'/ours-surveys'} component={OursSurveysView} />
-            <Route path={'/new-survey'} component={NewSurveyView} />
-            <Route path={'/favourites'} component={FavouritesView} />
-            <Route path={'/survey/:id/:goBackLink'} component={FinalSurveyView} />
+
+            <Route path={'/'} exact component={withNavigation(Dashboard)} />
+            <Route path={'/dashboard'} component={withNavigation(Dashboard)} />
+            <Route path={'/ours-surveys'} component={withNavigation(OursSurveysView)} />
+            <Route path={'/new-survey'} component={withNavigation(NewSurveyView)} />
+            <Route path={'/favourites'} component={withNavigation(FavouritesView)} />
+            <Route path={'/survey/:id/:goBackLink'} component={withNavigation(FinalSurveyView)} />
+
             <Route path={'/filling-in-survey/:id'} component={FillingInSurvey} />
           </div>
         </Router>
 
-        <SnackBar  />
+        <SnackBar />
       </div>
     );
   }
 }
+
+const withNavigation = Component => (props) => (
+  <Navigation>
+    <Component {...props}/>
+  </Navigation>
+)
 
 export default App
