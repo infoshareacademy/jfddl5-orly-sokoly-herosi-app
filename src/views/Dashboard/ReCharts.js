@@ -22,17 +22,38 @@ const styles = { width: '100vw', height: '100vh' }
 class ReCharts extends React.Component {
 
   state={
-    chartWidth: 750,
-    chartHeight: 300
+    chartWidth: 500,
+    chartHeight: 200
   }
   
-  componentDidMount(){
+  onWindowResize = () => {
     this.setState({
       chartWidth: (window.innerWidth) / 1.7,
-      chartHeight: (window.innerHeight) /2 
+      chartHeight: (window.innerWidth) / 2.8
     })
+
   }
-  
+
+
+  componentDidMount() {
+    this.setState({
+      chartWidth: (window.innerWidth) / 1.7,
+      chartHeight: (window.innerWidth) / 2.8
+    })
+
+    window.addEventListener(
+      'resize',
+      this.onWindowResize
+    )
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize',
+      this.onWindowResize
+    )
+  }
+
   render() {
     return (
       <div style={styles}>

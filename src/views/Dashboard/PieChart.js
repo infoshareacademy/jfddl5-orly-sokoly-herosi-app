@@ -1,10 +1,10 @@
 import React from 'react'
 import { PieChart as Chart, Pie, Tooltip } from 'recharts'
 
-const styles ={
-  margin: '50px',
-  padding: '50px'
-}
+// const styles = {
+//   margin: '50px',
+//   padding: '50px'
+// }
 const data = [
   {
     value: 30,
@@ -28,21 +28,42 @@ class PieChart extends React.Component {
     chartWidth: 500,
     chartHeight: 500
   }
-  
+
+  onWindowResize = () => {
+    this.setState({
+      chartWidth: (window.innerWidth) / 1.7,
+      chartHeight: (window.innerHeight) / 1.7
+    })
+
+  }
+
 
   componentDidMount() {
     this.setState({
-      chartWidth: ( window.innerWidth) / 1.7,
-      chartHeight:  (window.innerHeight) /1.7
+      chartWidth: (window.innerWidth) / 1.7,
+      chartHeight: (window.innerHeight) / 1.7
     })
+
+    window.addEventListener(
+      'resize',
+      this.onWindowResize
+    )
   }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize',
+      this.onWindowResize
+    )
+  }
+
 
   render() {
     return (
       <div>
         <Chart width={this.state.chartWidth} height={this.state.chartHeight}>
           <Pie
-          style={styles}
+            //style={styles}
             data={data}
             dataKey="value"
             nameKey="name"
