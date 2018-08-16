@@ -1,16 +1,32 @@
 import { database } from '../firebaseConfig'
 
 const GET_SURVEY = 'answers/PUT_SURVEY'
+const PUSH_ANSWERS = 'answers/PUSH_ANSWERS'
 
 const initialState = {
     survey: null,
-    answersArray: null
 }
 
 const getSurveyAction = (survey) => ({
     type: GET_SURVEY,
     survey
 })
+
+export const pushAnswersAction = (answers, surveyId) => (dispatch, getState) => {
+    Object.entries(answers)
+        .map(([questionId, answer]) => (
+            {
+                answer,
+                questionId
+            }
+        ))
+        .forEach(e =>
+            database.ref(`surveys/${surveyId}/answers`).push({
+                answer: e.answer,
+                questionId: e.questionId
+            })
+        )
+}
 
 export const loadingSurvey = (id) => (dispatch, getState) => {
     database

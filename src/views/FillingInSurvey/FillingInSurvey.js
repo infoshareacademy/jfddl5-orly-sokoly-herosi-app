@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { setOpenAction } from '../../state/snackBar'
-import { loadingSurvey } from '../../state/answers'
+import { loadingSurvey, pushAnswersAction } from '../../state/answers'
 
 
 class FillingInSurvey extends React.Component {
@@ -66,7 +66,7 @@ class FillingInSurvey extends React.Component {
                                 primary={true}
                                 fullWidth={true}
                                 label="Send your answers!"
-                                onClick={() => null}
+                                onClick={() => this.props._pushAnswersAction(this.state.answers, this.props.match.params.id)}
                             />
                         </div >
                         :
@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     _loadingSurvey: (id) => dispatch(loadingSurvey(id)),
-
+    _pushAnswersAction: (answers, surveyId) => dispatch(pushAnswersAction(answers, surveyId)),
     _setOpenAction: () => dispatch(setOpenAction('Thank you for your time!'))
 })
 
