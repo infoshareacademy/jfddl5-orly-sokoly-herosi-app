@@ -8,6 +8,7 @@ import Dashboard from './views/Dashboard/Dashboard'
 import Navigation from './Navigation'
 import FinalSurveyView from './views/FinalSurveyView';
 import SnackBar from './components/SnackBar'
+import Auth from './components/Auth'
 
 class App extends React.Component {
 
@@ -15,6 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Auth>
         <Router>
           <div>
 
@@ -30,6 +32,7 @@ class App extends React.Component {
         </Router>
 
         <SnackBar  />
+        </Auth>
       </div>
     );
   }
