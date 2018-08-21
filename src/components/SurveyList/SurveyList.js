@@ -41,6 +41,7 @@ class SurveyList extends React.Component {
                                 <SurveyItem
                                     item={item}
                                     key={item.id}
+                                    goBackLink={this.props.goBackLink}
                                 />
                             )
                     }

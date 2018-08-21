@@ -41,6 +41,7 @@ class FavouriteView extends React.Component {
 
                     <SurveyList
                         surveysArray={favouriteSurveys}
+                        goBackLink={'/favourites'}
                     />
 
                 </div>
