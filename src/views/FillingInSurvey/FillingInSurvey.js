@@ -66,7 +66,10 @@ class FillingInSurvey extends React.Component {
                                 primary={true}
                                 fullWidth={true}
                                 label="Send your answers!"
-                                onClick={() => this.props._pushAnswersAction(this.state.answers, this.props.match.params.id)}
+                                onClick={() => { 
+                                    this.props._pushAnswersAction(this.state.answers, this.props.match.params.id)
+                                    this.setState({answers: {}})
+                                }}
                             />
                         </div >
                         :

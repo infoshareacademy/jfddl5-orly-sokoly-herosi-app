@@ -1,7 +1,6 @@
 import { database } from '../firebaseConfig'
 
 const GET_SURVEY = 'answers/PUT_SURVEY'
-const PUSH_ANSWERS = 'answers/PUSH_ANSWERS'
 
 const initialState = {
     survey: null,
