@@ -27,6 +27,11 @@ class FillingInSurvey extends React.Component {
     }
 
     render() {
+    const OSHPaperStyles = {
+            padding:'50px',
+            margin: '50px',
+        }
+    
         const survey = this.props._survey
         const questionsObject = survey && survey.questions
         const questionsArray = questionsObject &&
@@ -38,27 +43,34 @@ class FillingInSurvey extends React.Component {
                     return e
                 }).map(e => {
                     return (
-                        <OSHPaper
+                        <div
                             key={e.id}
                         >
                             <h2>{e.question}</h2>
                             <TextField
+                                multiLine={true}
+                                rows={2}
+                                rowsMax={4}
+                                fullWidth={true}
                                 value={this.state.answers[e.id] || ''}
                                 onChange={(event) => this.onAnswerChanged(event, e.id)}
                                 type={'text'}
                                 floatingLabelText={'Write your answer'}
                             />
-                        </OSHPaper>
+                        </div>
                     )
                 })
 
         return (
-            <OSHPaper>
+            <OSHPaper
+            styles={OSHPaperStyles}
+            >
                 {
                     survey ?
                         <div>
-                            <h2> {survey.title} </h2>
-                            <h3>Description: {survey.text}</h3>
+                            <h2>Title: {survey.title}</h2>
+                            <h3>Description:</h3>
+                            {survey.text}
                             {
                                 questionsArray
                             }
@@ -66,9 +78,9 @@ class FillingInSurvey extends React.Component {
                                 primary={true}
                                 fullWidth={true}
                                 label="Send your answers!"
-                                onClick={() => { 
+                                onClick={() => {
                                     this.props._pushAnswersAction(this.state.answers, this.props.match.params.id)
-                                    this.setState({answers: {}})
+                                    this.setState({ answers: {} })
                                     this.props._setOpenAction()
                                 }}
                             />

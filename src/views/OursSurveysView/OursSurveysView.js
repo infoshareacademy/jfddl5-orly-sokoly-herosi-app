@@ -49,11 +49,12 @@ class OursSurveysView extends React.Component {
                 if (this.state.category === 'All') { return e === e } else { return e.category === this.state.category }
             })
             .filter(e => (
-                e.date >= this.state.rangeArray[0] &&
-                e.date <= this.state.rangeArray[1]
+                this.state.rangeArray.length === 0 ?
+                    true
+                    :
+                    e.date >= this.state.rangeArray[0] &&
+                    e.date <= this.state.rangeArray[1]
             ))
-
-            debugger
 
         return (
             <OSHPaper>
@@ -92,7 +93,7 @@ class OursSurveysView extends React.Component {
 
 }
 
-const mapStateToProps = (state) => ({ 
+const mapStateToProps = (state) => ({
     _surveyList: state.surveys.surveyList
 })
 

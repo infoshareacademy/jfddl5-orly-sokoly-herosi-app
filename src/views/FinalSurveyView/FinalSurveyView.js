@@ -18,30 +18,65 @@ const FinalSurveyView = (props) => {
 
     const styles = {
         center: {
-            textAlign: 'center'
+            textAlign: 'center',
+        },
+        OSHPaper: {
+            padding: '50px',
+            margin: '50px auto',
+            width: '800px'
+        }, 
+        buttons: {
+            margin: '30px',
         }
     }
 
+    const questions = survey && Object.entries(survey.questions)
+        .map(([id, value]) => {
+            // value.id = id
+            return value
+        })
+
     return (
-        <OSHPaper>
+        <OSHPaper styles={styles.OSHPaper}>
             {
                 survey ?
                     <div>
                         <h1 className="final-view__header"> The survey you choose: </h1>
-                        <div>Category: {survey.category} </div>
-                        <h2>Title: {survey.title} </h2>
-                        <h3>Description: {survey.text}</h3>
-                        <div>{survey.questions.map(e => <div>{e}</div>)}</div>
-                        <RaisedButton
-                            primary={true}
-                            fullWidth={true}
-                            label="Generate public survey!"
-                            href={`/filling-in-survey/${id}`}
-                        />
+                        <h2>Title:</h2>
+                        {survey.title}
+                        <h3>Category:</h3>
+                        {survey.category}
+                        <h3>Description:</h3>
+                        {survey.text}
+                        <h3>Question list: </h3>
+                        <ul>
+                            {questions.map(e => <li>{e}</li>)}
+                        </ul>
                         <div
                             style={styles.center}
                         >
-                            <Link to={'/' + goBackLink} >Go to previous page </Link>
+                            <div style={styles.buttons}>
+                                <RaisedButton
+                                    primary={true}
+                                    fullWidth={true}
+                                    label="Generate public survey!"
+                                    href={`/filling-in-survey/${id}`}
+                                    target={'_blank'}
+                                />
+                            </div>
+                            <div
+                            style={styles.buttons}
+                            >
+                                <Link
+                                    to={'/' + goBackLink}
+                                >
+                                    <RaisedButton
+                                        fullWidth={true}
+                                        secondary={true}
+                                        label="Go to previous page"
+                                    />
+                                </Link>
+                            </div>
                         </div>
 
                     </div>
