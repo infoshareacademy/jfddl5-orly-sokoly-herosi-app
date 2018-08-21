@@ -36,17 +36,15 @@ class FillingInSurvey extends React.Component {
         const questionsObject = survey && survey.questions
         const questionsArray = questionsObject &&
             Object.entries(questionsObject)
-                .map(([id, question]) => {
-                    let e = {}
-                    e.id = id
-                    e.question = question
-                    return e
-                }).map(e => {
+                .map(([id, question]) => ({
+                    ...question,
+                    id
+                })).map(e => {
                     return (
                         <div
                             key={e.id}
                         >
-                            <h2>{e.question}</h2>
+                            <h2>{e.questionText}</h2>
                             <TextField
                                 multiLine={true}
                                 rows={2}

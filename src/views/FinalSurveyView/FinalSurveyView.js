@@ -32,7 +32,6 @@ const FinalSurveyView = (props) => {
 
     const questions = survey && Object.entries(survey.questions)
         .map(([id, value]) => {
-            // value.id = id
             return value
         })
 
@@ -50,7 +49,7 @@ const FinalSurveyView = (props) => {
                         {survey.text}
                         <h3>Question list: </h3>
                         <ul>
-                            {questions.map(e => <li>{e}</li>)}
+                            {questions.map(e => <li>{e.questionText}</li>)}
                         </ul>
                         <div
                             style={styles.center}
