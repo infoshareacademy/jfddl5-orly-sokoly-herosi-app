@@ -5,6 +5,32 @@ const TEXT_CHANGE = 'newSurvey/TEXT_CHANGE'
 const CATEGORY_CHANGE = 'newSurvey/CATEGORY_CHANGE'
 const QUESTION_CHANGE = 'newSurvey/QUESTION_CHANGE'
 
+const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
+
+export const saveNewSurvey = (newSurveyData, questions) => (dispatch, getState) => {    
+    const request = {
+        method: 'POST',
+        body: JSON.stringify(newSurveyData)
+    }
+
+    return fetch(`${myApiUrl}.json`, request)
+        .then(r => r.json())
+        .then(data => {
+            const newSurveyKey = data.name
+
+            const questionSavePromises = questions.map((question) => {
+                const request = {
+                    method: 'POST',
+                    body: JSON.stringify(question)
+                }
+
+                return fetch(`${myApiUrl}/${newSurveyKey}/questions.json`, request)
+            })
+
+            return Promise.all(questionSavePromises)
+        })
+
+}
 
 export const createSurveyAction = (data) => ({
     type: CREATE_SURVEY,
@@ -15,14 +41,14 @@ export const addQuestionToSurveyAction = () => ({
     type: ADD_QUESTION_TO_SURVEY
 })
 
-export const titleChangeAction = (event) => ({
+export const titleChangeAction = (value) => ({
     type: TITLE_CHANGE,
-    event
+    value
 })
 
-export const textChangeAction = (event) => ({
+export const textChangeAction = (value) => ({
     type: TEXT_CHANGE,
-    event
+    value
 })
 
 export const categoryChangeAction = (event, index, value) => ({
@@ -32,9 +58,9 @@ export const categoryChangeAction = (event, index, value) => ({
     value
 })
 
-export const questionChangeAction = (event, index) => ({
+export const questionChangeAction = (value, index) => ({
     type: QUESTION_CHANGE,
-    event,
+    value,
     index
 })
 
@@ -72,23 +98,21 @@ export default (state = initialState, action) => {
         case TITLE_CHANGE:
             return {
                 ...state,
-                fieldTitle: event.target.value,
-                title: state.title
+                title: action.value
             }
         case TEXT_CHANGE:
             return {
                 ...state,
-                fieldText: event.target.value,
-                text: state.text
+                text: action.value
             }
         case QUESTION_CHANGE:
             return {
                 ...state,
                 questions: state.questions.map((question, i) => (
-                    index === i ?
+                    action.index === i ?
                         {
                             ...question,
-                            questionText: event.target.value
+                            questionText: action.value
                         }
                         :
                         question

@@ -6,82 +6,37 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Category from './Category'
 
 import { connect } from 'react-redux'
-import { saveNewSurvey } from '../../state/surveys'
+import { saveNewSurvey, titleChangeAction } from '../../state/newSurvey'
 import { setOpenAction } from '../../state/snackBar'
 
 class NewSurveyView extends React.Component {
-    state = {
-        title: '',
-        text: '',
-        category: 'People',
-        isFavourite: false,
-        questions: [
-            { questionText: '' },
-        ]
-    }
+ 
 
     createHandler = () => {
-        this.state.title !== '' &&
-            this.state.text !== ''
-            ?
-            this.props._saveNewSurvey({
-                title: this.state.title,
-                text: this.state.text,
-                category: this.state.category,
-                isFavourite: this.state.isFavourite,
-                date: Date.now()
-            }, this.state.questions)
-                .then(() => {
-                    this.setState({
-                        title: '',
-                        text: '',
-                        category: 'People'
-                    })
-                    this.props._setOpenAction()
-                })
-                .catch(()=>{
-                    // TODO
-                })
-            :
-            null
+        // this.state.title !== '' &&
+        //     this.state.text !== ''
+        //     ?
+        //     this.props._saveNewSurvey({
+        //         title: this.state.title,
+        //         text: this.state.text,
+        //         category: this.state.category,
+        //         isFavourite: this.state.isFavourite,
+        //         date: Date.now()
+        //     }, this.state.questions)
+        //         .then(() => {
+        //             this.setState({
+        //                 title: '',
+        //                 text: '',
+        //                 category: 'People'
+        //             })
+        //             this.props._setOpenAction()
+        //         })
+        //         .catch(()=>{
+        //             // TODO
+        //         })
+        //     :
+        //     null
     }
-
-    titleChange = (event) => {
-        const fieldTitle = event.target.value
-        this.setState({
-            title: fieldTitle
-        });
-    }
-    textChange = (event) => {
-        const fieldText = event.target.value
-        this.setState({
-            text: fieldText
-        });
-    }
-    onCategoryChangeHandler = (event, index, value) => {
-        const choosedCategory = value
-        this.setState({
-            category: choosedCategory
-        });
-    }
-
-    addNewQuestion = () => this.setState({
-        questions: this.state.questions.concat(
-            { questionText: '' }
-        )
-    })
-
-    onQuestionChangeHandler = (event, index) => this.setState({
-        questions: this.state.questions.map((question, i) => (
-            index === i ?
-                {
-                    ...question,
-                    questionText: event.target.value
-                }
-                :
-                question
-        ))
-    })
 
     render() {
         return (
@@ -94,8 +49,8 @@ class NewSurveyView extends React.Component {
                         fullWidth={true}
                         type="text"
                         name="title"
-                        onChange={this.titleChange}
-                        value={this.state.title}
+                        onChange={this.props._titleChangeAction}
+                        value={this.props._title}
                     /><br />
                     < TextField
                         hintText="Enter contents survey"
@@ -103,37 +58,37 @@ class NewSurveyView extends React.Component {
                         fullWidth={true}
                         type="text"
                         name="text-field"
-                        onChange={this.textChange}
-                        value={this.state.text}
+                        // onChange={this.textChange}
+                        // value={this.state.text}
                     />
                     <Category
-                        onCategoryChangeHandler={this.onCategoryChangeHandler}
-                        currentCategory={this.state.category}
+                        // onCategoryChangeHandler={this.onCategoryChangeHandler}
+                        // currentCategory={this.state.category}
                     />
                 </OSHPaper>
                 <div>
                     {
-                        this.state.questions.map((question, i) => (
-                            <OSHPaper>
-                                <h4>Question: {i + 1}</h4>
-                                <TextField
-                                    value={question.questionText}
-                                    onChange={(event) => this.onQuestionChangeHandler(event, i)}
-                                    hintText="Enter question"
-                                    floatingLabelText="Question"
-                                    fullWidth={true}
-                                    type="text"
-                                    name="title"
-                                />
-                            </OSHPaper>
-                        ))
+                        // this.state.questions.map((question, i) => (
+                        //     <OSHPaper>
+                        //         <h4>Question: {i + 1}</h4>
+                        //         <TextField
+                        //             value={question.questionText}
+                        //             onChange={(event) => this.onQuestionChangeHandler(event, i)}
+                        //             hintText="Enter question"
+                        //             floatingLabelText="Question"
+                        //             fullWidth={true}
+                        //             type="text"
+                        //             name="title"
+                        //         />
+                        //     </OSHPaper>
+                        // ))
                     }
 
                 </div>
                 <div>
                     <OSHPaper>
                         <RaisedButton
-                            onClick={this.addNewQuestion}
+                            // onClick={this.addNewQuestion}
                             label="Add next question"
                             fullWidth={true}
                             primary={true}
@@ -144,7 +99,7 @@ class NewSurveyView extends React.Component {
                             fullWidth={true}
                             secondary={true}
                             style={style}
-                            onClick={this.createHandler}
+                            // onClick={this.createHandler}
                         />
                     </OSHPaper>
                 </div>
@@ -158,12 +113,17 @@ const style = {
     marginBottom: 12,
 };
 
+const mapStateToProps = state => ({
+    _title: state.newSurvey.title
+})
+
 const mapDispatchToProps = dispatch => ({
     _saveNewSurvey: (newSurveyData, questions) => dispatch(saveNewSurvey(newSurveyData, questions)),
-    _setOpenAction: () => dispatch(setOpenAction('New survey was added!'))
+    _setOpenAction: () => dispatch(setOpenAction('New survey was added!')),
+    _titleChangeAction: (event) => dispatch(titleChangeAction(event.target.value))
 })
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(NewSurveyView)
