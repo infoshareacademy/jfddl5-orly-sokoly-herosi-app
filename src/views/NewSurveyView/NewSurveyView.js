@@ -16,7 +16,6 @@ class NewSurveyView extends React.Component {
         category: 'People',
         isFavourite: false,
         questions: [
-            { questionText: 'dupa' },
             { questionText: '' },
         ]
     }
@@ -31,14 +30,18 @@ class NewSurveyView extends React.Component {
                 category: this.state.category,
                 isFavourite: this.state.isFavourite,
                 date: Date.now()
-            }).then(() => {
-                this.setState({
-                    title: '',
-                    text: '',
-                    category: 'People'
+            }, this.state.questions)
+                .then(() => {
+                    this.setState({
+                        title: '',
+                        text: '',
+                        category: 'People'
+                    })
+                    this.props._setOpenAction()
                 })
-                this.props._setOpenAction()
-            })
+                .catch(()=>{
+                    // TODO
+                })
             :
             null
     }
@@ -64,7 +67,7 @@ class NewSurveyView extends React.Component {
 
     addNewQuestion = () => this.setState({
         questions: this.state.questions.concat(
-            { questionText: ''}
+            { questionText: '' }
         )
     })
 
@@ -112,7 +115,7 @@ class NewSurveyView extends React.Component {
                     {
                         this.state.questions.map((question, i) => (
                             <OSHPaper>
-                                <h4>{i}</h4>
+                                <h4>Question: {i + 1}</h4>
                                 <TextField
                                     value={question.questionText}
                                     onChange={(event) => this.onQuestionChangeHandler(event, i)}
@@ -152,11 +155,11 @@ class NewSurveyView extends React.Component {
 
 }
 const style = {
-    margin: 12,
+    marginBottom: 12,
 };
 
 const mapDispatchToProps = dispatch => ({
-    _saveNewSurvey: newSurveyData => dispatch(saveNewSurvey(newSurveyData)),
+    _saveNewSurvey: (newSurveyData, questions) => dispatch(saveNewSurvey(newSurveyData, questions)),
     _setOpenAction: () => dispatch(setOpenAction('New survey was added!'))
 })
 

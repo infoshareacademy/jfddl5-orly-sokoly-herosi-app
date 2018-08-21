@@ -6,7 +6,8 @@ import snackBar from './state/snackBar'
 
 const reducer = combineReducers({
     surveys,
-    snackBar
+    snackBar,
+   
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
