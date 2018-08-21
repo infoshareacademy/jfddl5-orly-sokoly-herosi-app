@@ -3,9 +3,9 @@ import React from 'react'
 import Search from './Search'
 import OSHPaper from '../../components/OSHPaper'
 import './oursSurveys.css'
-import { database } from '../../firebaseConfig'
 import SurveyList from '../../components/SurveyList';
 import Loading from '../../components/Loading';
+import { connect } from 'react-redux'
 
 class OursSurveysView extends React.Component {
 
@@ -13,30 +13,9 @@ class OursSurveysView extends React.Component {
         super(props)
         this.state = {
             searchValue: '',
-            surveyList: null,
             rangeArray: [],
-            oldestSurveyTimestamp: 0,
-            isFavourite: false,
             category: 'All'
         }
-    }
-
-    componentDidMount() {
-        database.ref('surveys')
-            .on('value', snapshot => {
-                const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
-                    value.id = id
-                    return value
-                })
-                this.setState({
-                    surveyList: firebaseData,
-                    oldestSurveyTimestamp: firebaseData.map(e => e.date).sort()[0]
-                })
-            })
-    }
-
-    componentWillUnmount() {
-        database.ref('surveys').off()
     }
 
     onChangeSearchValue = (event, value) => {
@@ -58,7 +37,9 @@ class OursSurveysView extends React.Component {
 
 
     render() {
-        const searchSurveyList = this.state.surveyList && this.state.surveyList
+        const oldestSurveyTimestamp = this.props._surveyList && this.props._surveyList.map(e => e.date).sort()[0]
+
+        const searchSurveyList = this.props._surveyList && this.props._surveyList
             .map(e => e)
             .filter(e => {
                 return e.title.indexOf(this.state.searchValue) >= 0 ||
@@ -72,6 +53,8 @@ class OursSurveysView extends React.Component {
                 e.date <= this.state.rangeArray[1]
             ))
 
+            debugger
+
         return (
             <OSHPaper>
                 <div className="ours-surveys">
@@ -81,7 +64,7 @@ class OursSurveysView extends React.Component {
                         searchValue={this.state.searchValue}
                         onChangeSearchValue={this.onChangeSearchValue}
 
-                        oldestSurveyTimestamp={this.state.oldestSurveyTimestamp}
+                        oldestSurveyTimestamp={oldestSurveyTimestamp}
 
                         onChangeRangeArrayHandler={this.onChangeRangeArrayHandler}
                         rangeArray={this.state.rangeArray}
@@ -109,6 +92,12 @@ class OursSurveysView extends React.Component {
 
 }
 
+const mapStateToProps = (state) => ({ 
+    _surveyList: state.surveys.surveyList
+})
 
+const mapStateToDispatch = (dispatch) => ({
 
-export default OursSurveysView
+})
+
+export default connect(mapStateToProps, mapStateToDispatch)(OursSurveysView)

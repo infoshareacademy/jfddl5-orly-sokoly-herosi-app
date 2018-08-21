@@ -31,6 +31,7 @@ const FinalSurveyView = (props) => {
                         <div>Category: {survey.category} </div>
                         <h2>Title: {survey.title} </h2>
                         <h3>Description: {survey.text}</h3>
+                        <div>{survey.questions.map(e => <div>{e}</div>)}</div>
                         <RaisedButton
                             primary={true}
                             fullWidth={true}
