@@ -6,11 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Category from './Category'
 
 import { connect } from 'react-redux'
-import { saveNewSurvey, titleChangeAction } from '../../state/newSurvey'
+import { saveNewSurvey, titleChangeAction, textChangeAction, categoryChangeAction, questionChangeAction, createSurveyAction, addQuestionToSurveyAction } from '../../state/newSurvey'
 import { setOpenAction } from '../../state/snackBar'
 
 class NewSurveyView extends React.Component {
- 
+
 
     createHandler = () => {
         // this.state.title !== '' &&
@@ -58,37 +58,37 @@ class NewSurveyView extends React.Component {
                         fullWidth={true}
                         type="text"
                         name="text-field"
-                        // onChange={this.textChange}
-                        // value={this.state.text}
+                        onChange={this.props._textChangeAction}
+                        value={this.props._text}
                     />
                     <Category
-                        // onCategoryChangeHandler={this.onCategoryChangeHandler}
-                        // currentCategory={this.state.category}
+                        onCategoryChangeHandler={this.props._categoryChangeAction}
+                        currentCategory={this.props._category}
                     />
                 </OSHPaper>
                 <div>
                     {
-                        // this.state.questions.map((question, i) => (
-                        //     <OSHPaper>
-                        //         <h4>Question: {i + 1}</h4>
-                        //         <TextField
-                        //             value={question.questionText}
-                        //             onChange={(event) => this.onQuestionChangeHandler(event, i)}
-                        //             hintText="Enter question"
-                        //             floatingLabelText="Question"
-                        //             fullWidth={true}
-                        //             type="text"
-                        //             name="title"
-                        //         />
-                        //     </OSHPaper>
-                        // ))
+                        this.props._questions.map((_question, i) => (
+                            <OSHPaper>
+                                <h4>Question: {i + 1}</h4>
+                                <TextField
+                                    value={this.props._questions[i].questionText}
+                                    onChange={(event) => this.props._questionChangeAction(event, i)}
+                                    //hintText="Enter question"
+                                    floatingLabelText="Question"
+                                    fullWidth={true}
+                                    type="text"
+                                    name="title"
+                                />
+                            </OSHPaper>
+                        ))
                     }
 
                 </div>
                 <div>
                     <OSHPaper>
                         <RaisedButton
-                            // onClick={this.addNewQuestion}
+                            onClick={this.props._addQuestionToSurveyAction}
                             label="Add next question"
                             fullWidth={true}
                             primary={true}
@@ -99,7 +99,7 @@ class NewSurveyView extends React.Component {
                             fullWidth={true}
                             secondary={true}
                             style={style}
-                            // onClick={this.createHandler}
+                            onClick={this.props._createSurveyAction}
                         />
                     </OSHPaper>
                 </div>
@@ -114,13 +114,21 @@ const style = {
 };
 
 const mapStateToProps = state => ({
-    _title: state.newSurvey.title
+    _title: state.newSurvey.title,
+    _text: state.newSurvey.text,
+    _category: state.newSurvey.category,
+    _questions: state.newSurvey.questions
 })
 
 const mapDispatchToProps = dispatch => ({
     _saveNewSurvey: (newSurveyData, questions) => dispatch(saveNewSurvey(newSurveyData, questions)),
     _setOpenAction: () => dispatch(setOpenAction('New survey was added!')),
-    _titleChangeAction: (event) => dispatch(titleChangeAction(event.target.value))
+    _createSurveyAction: (newSurveyData) => dispatch(createSurveyAction(newSurveyData)),
+    _addQuestionToSurveyAction: () => dispatch(addQuestionToSurveyAction()),
+    _titleChangeAction: (event) => dispatch(titleChangeAction(event.target.value)),
+    _textChangeAction: (event) => dispatch(textChangeAction(event.target.value)),
+    _categoryChangeAction: (event) => dispatch(categoryChangeAction(event.target.value)),
+    _questionChangeAction: (event,  i) => dispatch(questionChangeAction(event.target.value,  i)),
 })
 
 export default connect(

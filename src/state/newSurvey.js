@@ -7,7 +7,7 @@ const QUESTION_CHANGE = 'newSurvey/QUESTION_CHANGE'
 
 const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 
-export const saveNewSurvey = (newSurveyData, questions) => (dispatch, getState) => {    
+export const saveNewSurvey = (newSurveyData, questions) => (dispatch, getState) => {
     const request = {
         method: 'POST',
         body: JSON.stringify(newSurveyData)
