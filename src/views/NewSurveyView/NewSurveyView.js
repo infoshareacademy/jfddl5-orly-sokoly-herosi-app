@@ -6,36 +6,18 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Category from './Category'
 
 import { connect } from 'react-redux'
-import { saveNewSurvey, titleChangeAction, textChangeAction, categoryChangeAction, questionChangeAction, createSurveyAction, addQuestionToSurveyAction } from '../../state/newSurvey'
+import { saveNewSurvey, titleChangeAction, textChangeAction, categoryChangeAction, questionChangeAction, addQuestionToSurveyAction } from '../../state/newSurvey'
 import { setOpenAction } from '../../state/snackBar'
 
 class NewSurveyView extends React.Component {
 
 
     createHandler = () => {
-        // this.state.title !== '' &&
-        //     this.state.text !== ''
-        //     ?
-        //     this.props._saveNewSurvey({
-        //         title: this.state.title,
-        //         text: this.state.text,
-        //         category: this.state.category,
-        //         isFavourite: this.state.isFavourite,
-        //         date: Date.now()
-        //     }, this.state.questions)
-        //         .then(() => {
-        //             this.setState({
-        //                 title: '',
-        //                 text: '',
-        //                 category: 'People'
-        //             })
-        //             this.props._setOpenAction()
-        //         })
-        //         .catch(()=>{
-        //             // TODO
-        //         })
-        //     :
-        //     null
+        this.props._saveNewSurvey()
+            .then(() => this.props._setOpenAction())
+            .catch(() => {
+                // TODO
+            })
     }
 
     render() {
@@ -99,7 +81,7 @@ class NewSurveyView extends React.Component {
                             fullWidth={true}
                             secondary={true}
                             style={style}
-                            onClick={this.props._createSurveyAction}
+                            onClick={this.createHandler}
                         />
                     </OSHPaper>
                 </div>
@@ -123,12 +105,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     _saveNewSurvey: (newSurveyData, questions) => dispatch(saveNewSurvey(newSurveyData, questions)),
     _setOpenAction: () => dispatch(setOpenAction('New survey was added!')),
-    _createSurveyAction: (newSurveyData) => dispatch(createSurveyAction(newSurveyData)),
     _addQuestionToSurveyAction: () => dispatch(addQuestionToSurveyAction()),
     _titleChangeAction: (event) => dispatch(titleChangeAction(event.target.value)),
     _textChangeAction: (event) => dispatch(textChangeAction(event.target.value)),
     _categoryChangeAction: (event) => dispatch(categoryChangeAction(event.target.value)),
-    _questionChangeAction: (event,  i) => dispatch(questionChangeAction(event.target.value,  i)),
+    _questionChangeAction: (event, i) => dispatch(questionChangeAction(event.target.value, i)),
 })
 
 export default connect(

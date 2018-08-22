@@ -1,4 +1,5 @@
-const CREATE_SURVEY = 'newSurvey/CREATE_SURVEY'
+
+
 const ADD_QUESTION_TO_SURVEY = 'newSurvey/ADD_QUESTION_TO_SURVEY'
 const TITLE_CHANGE = 'newSurvey/TITLE_CHANGE'
 const TEXT_CHANGE = 'newSurvey/TEXT_CHANGE'
@@ -7,7 +8,24 @@ const QUESTION_CHANGE = 'newSurvey/QUESTION_CHANGE'
 
 const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 
-export const saveNewSurvey = (newSurveyData, questions) => (dispatch, getState) => {
+export const saveNewSurvey = () => (dispatch, getState) => {
+    const currentState = getState()
+
+    if(currentState.newSurvey.title === ''){
+        alert('enter title') //@TODO snackbar!
+        return Promise.resolve()
+    }
+
+    const newSurveyData = {
+        title: currentState.newSurvey.title,
+        text: currentState.newSurvey.text,
+        category: currentState.newSurvey.category,
+        isFavourite: currentState.newSurvey.isFavourite,
+        date: Date.now()
+    }
+
+    const questions = currentState.newSurvey.questions
+
     const request = {
         method: 'POST',
         body: JSON.stringify(newSurveyData)
@@ -29,13 +47,7 @@ export const saveNewSurvey = (newSurveyData, questions) => (dispatch, getState) 
 
             return Promise.all(questionSavePromises)
         })
-
 }
-
-export const createSurveyAction = (data) => ({
-    type: CREATE_SURVEY,
-    data
-})
 
 export const addQuestionToSurveyAction = () => ({
     type: ADD_QUESTION_TO_SURVEY
@@ -78,16 +90,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case CREATE_SURVEY:
-            return {
-                ...state,
-                title: state.title,
-                text: state.text,
-                category: state.category,
-                isFavourite: state.isFavourite,
-                date: Date.now()
-            }
-
         case ADD_QUESTION_TO_SURVEY:
             return {
                 ...state,
