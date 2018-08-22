@@ -41,7 +41,7 @@ export const logOutAction = () => (dispatch, getState) => {
 
 const initialState = {
   user: null,
-  userLogIns:''
+  logUserLogIn:''
 
 };
 
