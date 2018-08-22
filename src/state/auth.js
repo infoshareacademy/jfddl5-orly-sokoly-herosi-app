@@ -1,4 +1,4 @@
-import { auth as firebaseAuth } from "../firebaseConfig";
+import { auth as firebaseAuth, database } from "../firebaseConfig";
 
 import { initSurveysSync } from "../state/surveys";
 const SET_USER = "auth/SET_USER";
@@ -18,11 +18,19 @@ export const initAuthStateListening = () => (dispatch, getState) => {
     dispatch(setUserAction(user)); //gwarantuje ze funkcja zostanie zalogowana z uzytkownikiem lub bez login
     if (user) {
       dispatch(initSurveysSync()); // here is a good place to dispatch after logOUT actions
+      dispatch(logUserLogIn());
     } else {
       //user is null if user is logged out
     }
   });
 };
+
+export const logUserLogIn = ()  => (dispatch, getState) => {
+  database.ref(`userLogIns`).push({
+    timestamp: Date.now(),
+    userId: getState().auth.user.uid
+  })
+}
 
 export const logOutAction = () => (dispatch, getState) => {
   firebaseAuth
@@ -32,7 +40,9 @@ export const logOutAction = () => (dispatch, getState) => {
 };
 
 const initialState = {
-  user: null
+  user: null,
+  userLogIns:''
+
 };
 
 export default (state = initialState, action) => {
