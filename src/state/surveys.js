@@ -23,6 +23,12 @@ export const initSurveysSync = () => (dispatch, getState) => {
         })
 }
 
+export const toggleFavAction = (id, isFavourite) => (dispatch, getState) => {
+    database.ref(`surveys/${id}`).update({
+        isFavourite: !isFavourite
+    })
+}
+
 export const saveNewSurvey = (newSurveyData) => (dispatch, getState) => {
     const request = {
         method: 'POST',

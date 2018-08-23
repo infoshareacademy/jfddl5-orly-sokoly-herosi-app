@@ -2,6 +2,7 @@ import React from 'react'
 import SurveyItem from './SurveyItem'
 import './surveyList.css'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { throws } from 'assert';
 
 class SurveyList extends React.Component {
 
@@ -42,6 +43,7 @@ class SurveyList extends React.Component {
                                     item={item}
                                     key={item.id}
                                     goBackLink={this.props.goBackLink}
+                                    toggleFav={this.props.toggleFav}
                                 />
                             )
                     }

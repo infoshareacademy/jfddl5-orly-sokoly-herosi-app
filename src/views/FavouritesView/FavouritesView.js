@@ -1,59 +1,47 @@
 import React from 'react'
+
 import OSHPaper from '../../components/OSHPaper'
-import { database } from '../../firebaseConfig'
 import SurveyList from '../../components/SurveyList';
+import Loading from '../../components/Loading';
 
-class FavouriteView extends React.Component {
+import { connect } from 'react-redux'
+import { toggleFavAction } from '../../state/surveys'
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            surveyList: [],
-            isFavourite: false
-        }
-    }
+const FavouriteView = (props) => {
+    const favouriteSurveys = props._surveyList && props._surveyList.map(e => e).filter(e => e.isFavourite === true)
 
-    componentDidMount() {
-        database.ref('surveys')
-            .on('value', snapshot => {
-                const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
-                    value.id = id
-                    return value
-                })
-                this.setState({
-                    surveyList: firebaseData,
-                })
-            })
-    }
-
-    componentWillUnmount() {
-        database.ref('surveys').off()
-    }
-
-
-    render() {
-        const favouriteSurveys = this.state.surveyList.map(e => e).filter(e => e.isFavourite === true)
-
-        return (
-            <OSHPaper>
-                <div className="favourite-surveys">
-                    <h1 className="favourite-surveys__header">Favourites Surveys</h1>
-                    {
+    return (
+        <OSHPaper>
+            <div className="favourite-surveys">
+                <h1 className="favourite-surveys__header">Favourites Surveys</h1>
+                {
+                    favouriteSurveys ?
                         favouriteSurveys.length !== 0 ?
                             <SurveyList
                                 surveysArray={favouriteSurveys}
                                 goBackLink={'favourites'}
-
+                                toggleFav={props._toggleFav}
                             />
                             :
                             <h2>There are no favourite surveys to show</h2>
-                    }
-                </div>
-            </OSHPaper>
-        )
-    }
-
+                        :
+                        <Loading />
+                }
+            </div>
+        </OSHPaper>
+    )
 }
 
-export default FavouriteView
+const mapStateToProps = (state) => ({
+    _surveyList: state.surveys.surveyList
+})
+
+const mapStateToDispatch = (dispatch) => ({
+    _toggleFav: (id, isFavourite) => dispatch(toggleFavAction(id, isFavourite))
+})
+
+export default connect(
+    mapStateToProps,
+    mapStateToDispatch
+)(FavouriteView)
 
