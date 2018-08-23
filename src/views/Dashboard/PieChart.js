@@ -64,7 +64,7 @@ class PieChart extends React.Component {
 
 
     
-    console.log(this.props._surveys, data[0])
+    //console.log(this.props._surveys, data[0])
 
     return (
       <div>

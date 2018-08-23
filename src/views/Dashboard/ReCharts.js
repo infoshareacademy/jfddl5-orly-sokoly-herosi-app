@@ -1,31 +1,17 @@
 import React from 'react'
 import { BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts'
+import { getMuiTheme } from 'material-ui/styles';
 
-const data = [
-  {
-    time: "Typ Ankiety 1",
-    users: 5,
-  },
-  {
-    time: "Typ Ankiety 2",
-    users: 3,
-  }, {
-    time: "Typ Ankiety 3",
-    users: 7,
-  }, {
-    time: "Typ Ankiety 4",
-    users: 9,
-  }
-]
+
 const styles = { width: '100vw', height: '100vh' }
 
 class ReCharts extends React.Component {
 
-  state={
+  state = {
     chartWidth: 500,
     chartHeight: 200
   }
-  
+
   onWindowResize = () => {
     this.setState({
       chartWidth: (window.innerWidth) / 1.7,
@@ -55,6 +41,52 @@ class ReCharts extends React.Component {
   }
 
   render() {
+
+    const day = 24 * 60 * 60 * 1000
+    const now = new Date()
+
+    const calculateLoginDate = () => {
+      const dayOne = now.getTime() - (now.getHours() * 60 * 60 * 1000 + now.getMinutes() * 60 * 1000 + now.getSeconds() * 1000 + now.getMilliseconds)
+
+      const dayTwo = dayOne - day
+      const dayThree = dayTwo - day
+      const dayFour = dayThree - day
+      const dayFive = dayFour - day
+      const daySix = dayFive - day
+      const daySeven = daySix - day
+
+      return (console.log('dupa'))
+    }
+
+    const data = [
+      {
+        time: "Six day ago",
+        users: 5,
+      },
+      {
+        time: "Five day ago",
+        users: 3,
+      }, {
+        time: "Four day ago",
+        users: 7,
+      }, {
+        time: "Three day ago",
+        users: 9,
+      },
+      {
+        time: "Two day ago",
+        users: 2,
+      },
+      {
+        time: "Yesterday",
+        users: 7,
+      },
+      {
+        time: "Today",
+        users: 8,
+      }
+    ]
+
     return (
       <div style={styles}>
         <BarChart width={this.state.chartWidth} height={this.state.chartHeight} data={data}>
