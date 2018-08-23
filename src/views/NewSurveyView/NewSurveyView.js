@@ -15,8 +15,9 @@ class NewSurveyView extends React.Component {
     createHandler = () => {
         this.props._saveNewSurvey()
             .then(() => this.props._setOpenAction())
+            
             .catch((error) => {
-                console.error('survey no added')
+                console.error(error)
             })
     }
 

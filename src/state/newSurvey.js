@@ -1,5 +1,3 @@
-
-
 const ADD_QUESTION_TO_SURVEY = 'newSurvey/ADD_QUESTION_TO_SURVEY'
 const TITLE_CHANGE = 'newSurvey/TITLE_CHANGE'
 const TEXT_CHANGE = 'newSurvey/TEXT_CHANGE'
