@@ -1,12 +1,9 @@
 import React from 'react'
 
-import { ListItem, Divider } from 'material-ui'
+import { ListItem } from 'material-ui'
 import FavIcon from 'material-ui/svg-icons/action/favorite'
 import FavIconBorder from 'material-ui/svg-icons/action/favorite-border'
 import { Link } from 'react-router-dom'
-
-import { database } from '../../firebaseConfig'
-
 
 const SurveyItem = (props) => (
     <ListItem
