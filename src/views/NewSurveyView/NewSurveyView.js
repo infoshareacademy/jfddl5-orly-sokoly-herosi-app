@@ -3,7 +3,8 @@ import TextField from 'material-ui/TextField'
 import OSHPaper from '../../components/OSHPaper'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import Category from './Category'
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import { connect } from 'react-redux'
 import { saveNewSurvey, titleChangeAction, textChangeAction, categoryChangeAction, questionChangeAction, addQuestionToSurveyAction } from '../../state/newSurvey'
@@ -11,12 +12,11 @@ import { setOpenAction } from '../../state/snackBar'
 
 class NewSurveyView extends React.Component {
 
-
     createHandler = () => {
         this.props._saveNewSurvey()
             .then(() => this.props._setOpenAction())
-            .catch(() => {
-                // TODO
+            .catch((error) => {
+                console.error('survey no added')
             })
     }
 
@@ -43,10 +43,19 @@ class NewSurveyView extends React.Component {
                         onChange={this.props._textChangeAction}
                         value={this.props._text}
                     />
-                    <Category
-                        onCategoryChangeHandler={this.props._categoryChangeAction}
-                        currentCategory={this.props._category}
-                    />
+                    <SelectField
+                        fullWidth={true}
+                        floatingLabelText="Survey category"
+                        onChange={this.props._categoryChangeAction}
+                        value={this.props._category}
+                        
+                    >
+                        <MenuItem value={"People"} primaryText="People" />
+                        <MenuItem value={"Research"} primaryText="Research" />
+                        <MenuItem value={"Alkohols"} primaryText="Alkohols" />
+                        <MenuItem value={"Hobby"} primaryText="Hobby" />
+                        <MenuItem value={"Work"} primaryText="Work" />
+                    </SelectField>
                 </OSHPaper>
                 <div>
                     {
@@ -56,7 +65,7 @@ class NewSurveyView extends React.Component {
                                 <TextField
                                     value={this.props._questions[i].questionText}
                                     onChange={(event) => this.props._questionChangeAction(event, i)}
-                                    //hintText="Enter question"
+                                    hintText="Enter question"
                                     floatingLabelText="Question"
                                     fullWidth={true}
                                     type="text"
@@ -65,7 +74,6 @@ class NewSurveyView extends React.Component {
                             </OSHPaper>
                         ))
                     }
-
                 </div>
                 <div>
                     <OSHPaper>
@@ -88,9 +96,8 @@ class NewSurveyView extends React.Component {
             </div>
         )
     }
-
-
 }
+
 const style = {
     marginBottom: 12,
 };
@@ -108,7 +115,7 @@ const mapDispatchToProps = dispatch => ({
     _addQuestionToSurveyAction: () => dispatch(addQuestionToSurveyAction()),
     _titleChangeAction: (event) => dispatch(titleChangeAction(event.target.value)),
     _textChangeAction: (event) => dispatch(textChangeAction(event.target.value)),
-    _categoryChangeAction: (event) => dispatch(categoryChangeAction(event.target.value)),
+    _categoryChangeAction: (event, i, value) => dispatch(categoryChangeAction(event.target.value, i, value)),
     _questionChangeAction: (event, i) => dispatch(questionChangeAction(event.target.value, i)),
 })
 

@@ -11,8 +11,8 @@ const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 export const saveNewSurvey = () => (dispatch, getState) => {
     const currentState = getState()
 
-    if(currentState.newSurvey.title === ''){
-        alert('enter title') //@TODO snackbar!
+    if (currentState.newSurvey.title === '') {
+        (() => this.props.setOpenAction())
         return Promise.resolve()
     }
 
@@ -41,10 +41,8 @@ export const saveNewSurvey = () => (dispatch, getState) => {
                     method: 'POST',
                     body: JSON.stringify(question)
                 }
-
                 return fetch(`${myApiUrl}/${newSurveyKey}/questions.json`, request)
             })
-
             return Promise.all(questionSavePromises)
         })
 }
@@ -76,14 +74,13 @@ export const questionChangeAction = (value, index) => ({
     index
 })
 
-
 const initialState = {
     title: '',
     text: '',
     category: 'People',
     isFavourite: false,
     questions: [
-        { questionText: 'dupa' },
+        { questionText: '' },
         { questionText: '' },
     ]
 }
@@ -101,6 +98,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 title: action.value
+            }
+        case CATEGORY_CHANGE:
+            return {
+                ...state,
+                category: action.value
             }
         case TEXT_CHANGE:
             return {
