@@ -1,14 +1,15 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import OursSurveysView from "./views/OursSurveysView";
-import NewSurveyView from "./views/NewSurveyView";
-import FavouritesView from "./views/FavouritesView";
-import Dashboard from "./views/Dashboard/Dashboard";
-import Navigation from "./Navigation";
-import FinalSurveyView from "./views/FinalSurveyView";
-import SnackBar from "./components/SnackBar";
 import Auth from "./Auth/Auth";
+import OursSurveysView from './views/OursSurveysView'
+import NewSurveyView from './views/NewSurveyView'
+import FavouritesView from './views/FavouritesView'
+import Dashboard from './views/Dashboard/Dashboard'
+import Navigation from './Navigation'
+import FinalSurveyView from './views/FinalSurveyView';
+import SnackBar from './components/SnackBar'
+import FillingInSurvey from './views/FillingInSurvey';
 
 class App extends React.Component {
   render() {
@@ -17,17 +18,16 @@ class App extends React.Component {
         <Auth>
           <Router>
             <div>
-              <Navigation />
+              <Route path={'/'} exact component={withNavigation(Dashboard)} />
+              <Route path={'/dashboard'} component={withNavigation(Dashboard)} />
+              <Route path={'/ours-surveys'} component={withNavigation(OursSurveysView)} />
+              <Route path={'/new-survey'} component={withNavigation(NewSurveyView)} />
+              <Route path={'/favourites'} component={withNavigation(FavouritesView)} />
+              <Route path={'/survey/:id/:goBackLink'} component={withNavigation(FinalSurveyView)} />
 
-              <Route path={"/"} exact component={Dashboard} />
-              <Route path={"/dashboard"} component={Dashboard} />
-              <Route path={"/ours-surveys"} component={OursSurveysView} />
-              <Route path={"/new-survey"} component={NewSurveyView} />
-              <Route path={"/favourites"} component={FavouritesView} />
-              <Route path={"/survey/:id"} component={FinalSurveyView} />
+              <Route path={'/filling-in-survey/:id'} component={FillingInSurvey} />
             </div>
           </Router>
-
           <SnackBar />
         </Auth>
       </div>
@@ -35,4 +35,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const withNavigation = Component => (props) => (
+  <Navigation>
+    <Component {...props}/>
+  </Navigation>
+)
+
+export default App

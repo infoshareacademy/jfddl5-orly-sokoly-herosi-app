@@ -5,13 +5,15 @@ import snackBar from "./state/snackBar";
 import auth, { initAuthStateListening } from "./state/auth";
 import signUpAuth from "./state/signUpAuth";
 import logInAuth from "./state/logInAuth";
+import answers from './state/answers'
 
 const reducer = combineReducers({
   surveys,
   snackBar,
   auth,
   signUpAuth,
-  logInAuth
+  logInAuth,
+  answers
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

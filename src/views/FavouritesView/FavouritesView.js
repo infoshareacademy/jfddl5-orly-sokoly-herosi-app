@@ -42,6 +42,8 @@ class FavouriteView extends React.Component {
                         favouriteSurveys.length !== 0 ?
                             <SurveyList
                                 surveysArray={favouriteSurveys}
+                                goBackLink={'favourites'}
+
                             />
                             :
                             <h2>There are no favourite surveys to show</h2>
