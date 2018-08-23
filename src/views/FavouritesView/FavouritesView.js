@@ -38,12 +38,16 @@ class FavouriteView extends React.Component {
             <OSHPaper>
                 <div className="favourite-surveys">
                     <h1 className="favourite-surveys__header">Favourites Surveys</h1>
+                    {
+                        favouriteSurveys.length !== 0 ?
+                            <SurveyList
+                                surveysArray={favouriteSurveys}
+                                goBackLink={'favourites'}
 
-                    <SurveyList
-                        surveysArray={favouriteSurveys}
-                        goBackLink={'/favourites'}
-                    />
-
+                            />
+                            :
+                            <h2>There are no favourite surveys to show</h2>
+                    }
                 </div>
             </OSHPaper>
         )
@@ -52,3 +56,4 @@ class FavouriteView extends React.Component {
 }
 
 export default FavouriteView
+
