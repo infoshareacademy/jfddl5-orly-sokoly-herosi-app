@@ -5,7 +5,9 @@ import OSHPaper from '../../components/OSHPaper'
 import './oursSurveys.css'
 import SurveyList from '../../components/SurveyList';
 import Loading from '../../components/Loading';
+
 import { connect } from 'react-redux'
+import { toggleFavAction } from '../../state/surveys'
 
 class OursSurveysView extends React.Component {
 
@@ -80,6 +82,7 @@ class OursSurveysView extends React.Component {
                                 <SurveyList
                                     surveysArray={searchSurveyList}
                                     goBackLink={'ours-surveys'}
+                                    toggleFav={this.props._toggleFav}
                                 />
                                 :
                                 <h2>There are no surveys to show</h2>
@@ -98,7 +101,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapStateToDispatch = (dispatch) => ({
-
+    _toggleFav: (id, isFavourite) => dispatch(toggleFavAction(id, isFavourite))
 })
 
-export default connect(mapStateToProps, mapStateToDispatch)(OursSurveysView)
+export default connect(
+    mapStateToProps,
+    mapStateToDispatch
+)(OursSurveysView)

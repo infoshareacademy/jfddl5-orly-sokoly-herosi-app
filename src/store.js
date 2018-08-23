@@ -1,6 +1,6 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import surveys, { initSurveysSync } from "./state/surveys";
+import surveys from "./state/surveys";
 import snackBar from "./state/snackBar";
 import auth, { initAuthStateListening } from "./state/auth";
 import signUpAuth from "./state/signUpAuth";
