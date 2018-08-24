@@ -2,7 +2,6 @@ import { database } from '../firebaseConfig'
 
 const SET_SURVEYS = 'surveys/SET_SURVEYS'
 
-const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 
 export const setSurveysAction = (data) => (
     {
@@ -10,6 +9,12 @@ export const setSurveysAction = (data) => (
         data
     }
 )
+
+export const toggleFavAction = (id, isFavourite) => (dispatch, getState) => {
+    database.ref(`surveys/${id}`).update({
+        isFavourite: !isFavourite
+    })
+ }
 
 export const initSurveysSync = () => (dispatch, getState) => {
     database
@@ -21,21 +26,6 @@ export const initSurveysSync = () => (dispatch, getState) => {
             })
             dispatch(setSurveysAction(firebaseData))
         })
-}
-
-export const toggleFavAction = (id, isFavourite) => (dispatch, getState) => {
-    database.ref(`surveys/${id}`).update({
-        isFavourite: !isFavourite
-    })
-}
-
-export const saveNewSurvey = (newSurveyData) => (dispatch, getState) => {
-    const request = {
-        method: 'POST',
-        body: JSON.stringify(newSurveyData)
-    }
-
-    return fetch(`${myApiUrl}.json`, request)
 }
 
 const initialState = {

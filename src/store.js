@@ -6,10 +6,12 @@ import auth, { initAuthStateListening } from "./state/auth";
 import signUpAuth from "./state/signUpAuth";
 import logInAuth from "./state/logInAuth";
 import answers from './state/answers'
+import newSurvey from './state/newSurvey'
 
 const reducer = combineReducers({
   surveys,
   snackBar,
+  newSurvey,
   auth,
   signUpAuth,
   logInAuth,
