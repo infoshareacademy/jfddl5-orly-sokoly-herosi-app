@@ -1,6 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts'
-import { getMuiTheme } from 'material-ui/styles';
+
 
 
 const styles = { width: '100vw', height: '100vh' }
@@ -40,53 +41,63 @@ class ReCharts extends React.Component {
         )
     }
 
-    render() {
+    calculateLoginDate = () => {
+        const day = 24 * 60 * 60 * 1000
+        const now = new Date()
+        const dayOne = now.getTime() - (now.getHours() * 60 * 60 * 1000 + now.getMinutes() * 60 * 1000 + now.getSeconds() * 1000 + now.getMilliseconds())
 
-
-
-        const calculateLoginDate = () => {
-            const day = 24 * 60 * 60 * 1000
-            const now = new Date()
-            const dayOne = now.getTime() - (now.getHours() * 60 * 60 * 1000 + now.getMinutes() * 60 * 1000 + now.getSeconds() * 1000 + now.getMilliseconds)
-
-            const dayTwo = dayOne - day
-            const dayThree = dayTwo - day
-            const dayFour = dayThree - day
-            const dayFive = dayFour - day
-            const daySix = dayFive - day
-            const daySeven = daySix - day
-
-            return (console.log('dupa'))
-        }
+        const dayTwo = dayOne - day
+        const dayThree = dayTwo - day
+        const dayFour = dayThree - day
+        const dayFive = dayFour - day
+        const daySix = dayFive - day
+        const daySeven = daySix - day
+        console.log(daySeven)
 
         const data = [
             {
                 time: "Six day ago",
-                users: 5,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > daySeven && timestamp <= daySix).length :
+                    0,
             },
             {
                 time: "Five day ago",
-                users: 3,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > daySix && timestamp <= dayFive).length :
+                    0,
             }, {
                 time: "Four day ago",
-                users: 7,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > dayFive && timestamp <= dayFour).length :
+                    0,
             }, {
                 time: "Three day ago",
-                users: 9,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > dayFour && timestamp <= dayThree).length :
+                    0,
             },
             {
                 time: "Two day ago",
-                users: 2,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > dayThree && timestamp <= dayTwo).length :
+                    0,
             },
             {
                 time: "Yesterday",
-                users: 7,
+                users: this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > dayTwo && timestamp <= dayOne).length :
+                    0,
             },
             {
                 time: "Today",
-                users: 8,
+                users:
+                    this.props._timestamps ? this.props._timestamps.filter((timestamp) => timestamp > dayOne).length :
+                        0
             }
         ]
+        console.log(dayTwo)
+        return data
+    }
+
+    render() {
+        const data = this.calculateLoginDate()
+
+        console.log(data)
 
         return (
             <div style={styles}>
@@ -105,4 +116,11 @@ class ReCharts extends React.Component {
 
 }
 
-export default ReCharts
+
+const mapStateToProps = (state) => ({
+    _timestamps: state.auth.timestamp
+})
+
+export default connect(
+    mapStateToProps, null
+)(ReCharts)
