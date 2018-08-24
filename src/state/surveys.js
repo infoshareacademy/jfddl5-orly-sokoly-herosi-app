@@ -10,6 +10,12 @@ export const setSurveysAction = (data) => (
     }
 )
 
+export const toggleFavAction = (id, isFavourite) => (dispatch, getState) => {
+    database.ref(`surveys/${id}`).update({
+        isFavourite: !isFavourite
+    })
+ }
+
 export const initSurveysSync = () => (dispatch, getState) => {
     database
         .ref('surveys')

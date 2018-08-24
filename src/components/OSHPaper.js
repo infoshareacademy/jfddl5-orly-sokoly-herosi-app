@@ -8,7 +8,7 @@ const styles = {
 }
 
 const OSHPaper = (props) => (
-    <Paper style={styles}>
+    <Paper style={props.styles || styles}>
         {props.children}
     </Paper>
 )

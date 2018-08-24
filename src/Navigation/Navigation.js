@@ -25,6 +25,7 @@ class Navigation extends React.Component {
             isSideBarOpen= {this.state.isOpen}
             toggleSideBar={this.toggleHandler}
             />
+            {this.props.children}
         </div>
         )
     }

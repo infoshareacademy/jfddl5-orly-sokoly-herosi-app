@@ -16,7 +16,6 @@ class SurveyList extends React.Component {
         })
     }
 
-
     render() {
 
         const surveysArray= this.props.surveysArray
@@ -41,6 +40,8 @@ class SurveyList extends React.Component {
                                 <SurveyItem
                                     item={item}
                                     key={item.id}
+                                    goBackLink={this.props.goBackLink}
+                                    toggleFav={this.props.toggleFav}
                                 />
                             )
                     }

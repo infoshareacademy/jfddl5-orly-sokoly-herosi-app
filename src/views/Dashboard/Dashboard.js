@@ -3,11 +3,22 @@ import OSHPaper from '../../components/OSHPaper'
 import PieChart from './PieChart'
 import ReCharts from './ReCharts'
 
+const styles={
+   // position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+}
 
 const Dashboard = () => (
-    <OSHPaper>
-        <PieChart/>
-        <ReCharts />
+    <OSHPaper
+    
+    >
+        <PieChart
+        style={styles}
+        />
+        <ReCharts 
+        style={styles}
+        />
     </OSHPaper>
 )
 
