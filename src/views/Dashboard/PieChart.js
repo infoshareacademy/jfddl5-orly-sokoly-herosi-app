@@ -1,27 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { PieChart as Chart, Pie, Tooltip } from 'recharts'
 
-// const styles = {
-//   margin: '50px',
-//   padding: '50px'
-// }
-const data = [
-  {
-    value: 30,
-    name: 'nazwa 3'
-  },
-  {
-    value: 40,
-    name: 'nazwa 2'
-  },
-  {
-    value: 27,
-    name: 'nazwa 1'
-  }, {
-    value: 27,
-    name: 'nazwa 4'
-  }
-]
+
 
 class PieChart extends React.Component {
   state = {
@@ -34,9 +15,7 @@ class PieChart extends React.Component {
       chartWidth: (window.innerWidth) / 1.7,
       chartHeight: (window.innerHeight) / 1.7
     })
-
   }
-
 
   componentDidMount() {
     this.setState({
@@ -57,8 +36,36 @@ class PieChart extends React.Component {
     )
   }
 
-
   render() {
+    const calculateCategoryAmount = (categoryName) => (
+      (this.props._surveys && this.props._surveys.filter(e => e.category === categoryName).length) || 0
+    )
+
+    const data = [
+      {
+        value: calculateCategoryAmount('Work'),
+        name: 'Work'
+      },
+      {
+        value: calculateCategoryAmount('Alkohols'),
+        name: 'Alcohol'
+      },
+      {
+        value: calculateCategoryAmount('Hobby'),
+        name: 'Hobby'
+      }, {
+        value: calculateCategoryAmount('People'),
+        name: 'People'
+      },{
+        value: calculateCategoryAmount('Research'),
+        name: 'Research'
+      }
+    ]
+
+
+    
+    //console.log(this.props._surveys, data[0])
+
     return (
       <div>
         <Chart width={this.state.chartWidth} height={this.state.chartHeight}>
@@ -79,4 +86,11 @@ class PieChart extends React.Component {
 
 }
 
-export default PieChart
+
+const mapStateToProps = (state) => ({
+  _surveys: state.surveys.surveyList
+})
+
+export default connect(
+  mapStateToProps, null
+)(PieChart)
