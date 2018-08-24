@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import categoryChangeAction from '../state/newSurvey'
+
 class Category extends Component {
     render() {
         return (
