@@ -4,36 +4,41 @@ import SideBarItem from './SideBarItem'
 
 
 const SideBar = (props) => (
-   <Drawer
+    <Drawer
         docked={false}
         open={props.isSideBarOpen}
         onRequestChange={props.toggleSideBar}
     >
 
-       <SideBarItem 
+        <SideBarItem
             to='/dashboard'
             label='Dashboard'
             toggleSideBar={props.toggleSideBar}
-       />
+        />
 
-        <SideBarItem 
+        <SideBarItem
             to='/ours-surveys'
             label='Ours Surveys'
             toggleSideBar={props.toggleSideBar}
-       />
+        />
 
-        <SideBarItem 
+        <SideBarItem
             to='/new-survey'
             label='New Survey'
             toggleSideBar={props.toggleSideBar}
-       />
+        />
 
-        <SideBarItem 
+        <SideBarItem
             to='/favourites'
             label='Favourites'
             toggleSideBar={props.toggleSideBar}
-       />
+        />
+        <SideBarItem
+            to='/answer-view'
+            label='Answer View'
+            toggleSideBar={props.toggleSideBar}
+        />
    </Drawer>
-)
-
+     )
+     
 export default SideBar
