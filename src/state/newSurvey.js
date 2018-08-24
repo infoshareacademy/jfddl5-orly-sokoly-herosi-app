@@ -3,6 +3,7 @@ const TITLE_CHANGE = 'newSurvey/TITLE_CHANGE'
 const TEXT_CHANGE = 'newSurvey/TEXT_CHANGE'
 const CATEGORY_CHANGE = 'newSurvey/CATEGORY_CHANGE'
 const QUESTION_CHANGE = 'newSurvey/QUESTION_CHANGE'
+const RESET_STATE = 'newSurvey/RESET_STATE'
 
 const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 
@@ -13,6 +14,7 @@ export const saveNewSurvey = () => (dispatch, getState) => {
         (() => this.props.setOpenAction())
         return Promise.resolve()
     }
+
 
     const newSurveyData = {
         title: currentState.newSurvey.title,
@@ -42,6 +44,7 @@ export const saveNewSurvey = () => (dispatch, getState) => {
                 return fetch(`${myApiUrl}/${newSurveyKey}/questions.json`, request)
             })
             return Promise.all(questionSavePromises)
+                .then(() => dispatch(resetState()))
         })
 }
 
@@ -71,6 +74,8 @@ export const questionChangeAction = (value, index) => ({
     value,
     index
 })
+
+export const resetState = () => ({ type: RESET_STATE })
 
 const initialState = {
     title: '',
@@ -119,6 +124,10 @@ export default (state = initialState, action) => {
                         :
                         question
                 ))
+            }
+        case RESET_STATE:
+            return {
+                ...initialState
             }
         default:
             return state
