@@ -1,35 +1,26 @@
-import React from 'react'
+import React from "react";
 
-import OSHPaper from '../../components/OSHPaper'
-import SurveyList from '../../components/SurveyList';
-import Loading from '../../components/Loading';
+import OSHPaper from "../../components/OSHPaper";
+import SurveyList from "../../components/SurveyList";
+import Loading from "../../components/Loading";
 
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-const AnswerView = (props) => {
-    const 
-}
+const AnswerView = props => {
+  return (
+    <OSHPaper>
+      <div className="answers-view">
+        <h1 className="answer__view">Answers view</h1>
+      </div>
+    </OSHPaper>
+  );
+};
 
-return (
-    <div>
-        
-    </div>
-)
+const mapStateToProps = state => ({});
 
-
-
-
-
-const mapStateToProps = (state) => ({
-
-})
-
-const mapStateToDispatch = (dispatch) => ({
-    
-})
-
+const mapStateToDispatch = dispatch => ({});
 
 export default connect(
-    mapStateToProps,
-    mapStateToDispatch
-)(AnswerView)
+  mapStateToProps,
+  mapStateToDispatch
+)(AnswerView);

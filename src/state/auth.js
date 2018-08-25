@@ -25,12 +25,12 @@ export const initAuthStateListening = () => (dispatch, getState) => {
   });
 };
 
-export const logUserLogIn = ()  => (dispatch, getState) => {
+export const logUserLogIn = () => (dispatch, getState) => {
   database.ref(`userLogIns`).push({
     timestamp: Date.now(),
     userId: getState().auth.user.uid
-  })
-}
+  });
+};
 
 export const logOutAction = () => (dispatch, getState) => {
   firebaseAuth
@@ -41,8 +41,7 @@ export const logOutAction = () => (dispatch, getState) => {
 
 const initialState = {
   user: null,
-  logUserLogIn:''
-
+  logUserLogIn
 };
 
 export default (state = initialState, action) => {
