@@ -36,10 +36,11 @@ const textJustify = {
   justifyContent: "center",
   textAlign: "center"
 };
+
 const Auth = props =>
   props._user ? (
     <div>
-      {/* <FlatButton
+      {/* <RaisedButton
         className="logout-button"
         label="Logout"
         primary={true}
