@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { logOutAction } from "../state/auth";
+
 import {
   onEmailLoginChangeAction,
   onPasswordLoginChangeAction,
@@ -38,12 +39,12 @@ const textJustify = {
 const Auth = props =>
   props._user ? (
     <div>
-      <RaisedButton
+      {/* <FlatButton
         className="logout-button"
         label="Logout"
         primary={true}
         onClick={props._logOutAction}
-      />
+      /> */}
       {props.children}
     </div>
   ) : (

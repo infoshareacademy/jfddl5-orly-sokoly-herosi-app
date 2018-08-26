@@ -3,12 +3,16 @@ import { initSurveysSync } from "../state/surveys";
 
 const SET_USER = "auth/SET_USER";
 const SET_TIMESTAMP = "auth/SET_TIMESTAMP";
+const LOGGED_OUT = "auth/LOGGED_OUT";
 
 export const CLEAR_STATE = "auth/CLEAR_STATE";
 
 export const setTimeStampsAction = data => ({
   type: SET_TIMESTAMP,
   data
+});
+const loggedOut = () => ({
+  type: LOGGED_OUT
 });
 
 export const setUserAction = (user, timestamp) => ({
@@ -29,9 +33,13 @@ export const initAuthStateListening = () => (dispatch, getState) => {
       dispatch(initSurveysSync()); // here is a good place to dispatch after logOUT actions
       dispatch(logUserLogIn());
     } else {
+      dispatch(loggedOut());
       //user is null if user is logged out
     }
   });
+};
+export const logOut = () => (dispatch, getState) => {
+  firebaseAuth.signOut();
 };
 
 export const initUserLogIns = () => (dispatch, getState) => {
@@ -62,7 +70,7 @@ export const logOutAction = () => (dispatch, getState) => {
 
 const initialState = {
   user: null,
-  logUserLogIn: "",
+  isUserLoggedIn: false,
   timestamp: ""
 };
 
@@ -71,6 +79,7 @@ export default (state = initialState, action) => {
     case SET_USER:
       return {
         ...initialState,
+        isUserLoggedIn: true,
         user: action.user,
         timestamp: action.timestamp
       };
@@ -79,6 +88,8 @@ export default (state = initialState, action) => {
         ...state,
         timestamp: action.data
       };
+    case LOGGED_OUT:
+      return initialState;
     default:
       return state;
   }

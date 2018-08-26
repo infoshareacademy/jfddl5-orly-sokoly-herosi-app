@@ -42,14 +42,13 @@ class App extends React.Component {
                 path={"/survey/:id/:goBackLink"}
                 component={withNavigation(FinalSurveyView)}
               />
-
-              <Route
-                path={"/filling-in-survey/:id"}
-                component={FillingInSurvey}
-              />
             </div>
           </Router>
         </Auth>
+
+        <Router>
+          <Route path={"/filling-in-survey/:id"} component={FillingInSurvey} />
+        </Router>
         <SnackBar />
       </div>
     );
