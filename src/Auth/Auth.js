@@ -15,13 +15,29 @@ import {
 import { onLogInByGoogleClickHandler } from "../state/logInGoogleAuth";
 
 import RaisedButton from "material-ui/RaisedButton";
-
 import EmailAndPasswordForm from "./EmailAndPasswordForm";
 import PaperRefined from "../components/PaperRefined";
 
+const styles = {
+  margin: "20px,40px,20px, 40px",
+  padding: "50px"
+};
+
+const styleContainer = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh"
+};
+
+const textJustify = {
+  display: "flex",
+  justifyContent: "center",
+  textAlign: "center"
+};
 const Auth = props =>
   props._user ? (
-    <PaperRefined className="to-do-container">
+    <div>
       <RaisedButton
         className="logout-button"
         label="Logout"
@@ -29,11 +45,15 @@ const Auth = props =>
         onClick={props._logOutAction}
       />
       {props.children}
-    </PaperRefined>
+    </div>
   ) : (
-    <div className="login-page">
-      <div className="login-page-forms">
+    <div style={styleContainer}>
+      <div style={styles}>
+        <PaperRefined>
+          <h1 style={textJustify}> SURVEYS APP </h1>
+        </PaperRefined>
         <EmailAndPasswordForm
+          style={textJustify}
           onClickAction={props._onLogInClickAction}
           onPasswordChangeAction={props._onPasswordLoginChangeAction}
           onEmailChangeAction={props._onEmailLoginChangeAction}
@@ -49,9 +69,10 @@ const Auth = props =>
             label="Login"
             primary={true}
             onClick={props._onLogInByGoogleClickHandler}
+            style={textJustify}
           />
         </PaperRefined>
-        <div className="login-page-forms">
+        <div>
           <EmailAndPasswordForm
             onClickAction={props._onSignUpClickAction}
             onPasswordChangeAction={props._onPasswordSignUpChangeAction}
