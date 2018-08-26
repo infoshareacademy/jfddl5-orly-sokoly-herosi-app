@@ -24,7 +24,7 @@ const FinalSurveyView = (props) => {
             padding: '50px',
             margin: '50px auto',
             width: '800px'
-        }, 
+        },
         buttons: {
             margin: '30px',
         }
@@ -32,8 +32,22 @@ const FinalSurveyView = (props) => {
 
     const questions = survey && Object.entries(survey.questions)
         .map(([id, value]) => {
+            console.log(value, id)
+            return value =id
+        })
+    const answers = survey && Object.entries(survey.answers)
+        .map(([id, value]) => {
+            console.log('value', value)
             return value
         })
+
+    // const question = questions.map((e, i)=>e.questionText[i])
+
+
+    // const answer = answer.map()
+
+
+
 
     return (
         <OSHPaper styles={styles.OSHPaper}>
@@ -48,9 +62,9 @@ const FinalSurveyView = (props) => {
                         <h3>Description:</h3>
                         {survey.text}
                         <h3>Question list: </h3>
-                        <ul>
+                        <ol>
                             {questions.map(e => <li>{e.questionText}</li>)}
-                        </ul>
+                        </ol>
                         <div
                             style={styles.center}
                         >
@@ -64,7 +78,7 @@ const FinalSurveyView = (props) => {
                                 />
                             </div>
                             <div
-                            style={styles.buttons}
+                                style={styles.buttons}
                             >
                                 <Link
                                     to={'/' + goBackLink}
@@ -75,6 +89,21 @@ const FinalSurveyView = (props) => {
                                         label="Go to previous page"
                                     />
                                 </Link>
+                            </div>
+                            <div>
+                                <p> Answers:</p>
+                                <ul>
+                                    {questions.map((e, id) => <li>{e.questionText}+{answers.map(e => <li>{e.answer}</li>)} </li>
+                                    )}
+                                </ul>
+                                {/* <ul>
+                            {answers.map(e => <li>{e.answer}</li>)}
+                        </ul> */}
+
+
+
+
+
                             </div>
                         </div>
 

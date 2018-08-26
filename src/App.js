@@ -25,19 +25,25 @@ class App extends React.Component {
               <Route path={'/favourites'} component={withNavigation(FavouritesView)} />
               <Route path={'/survey/:id/:goBackLink'} component={withNavigation(FinalSurveyView)} />
 
-              <Route path={'/filling-in-survey/:id'} component={FillingInSurvey} />
             </div>
           </Router>
           <SnackBar />
         </Auth>
+        <div>
+          <Router >
+          <Route path={'/filling-in-survey/:id'} component={FillingInSurvey} />
+
+          </Router>
+        </div>
       </div>
+
     );
   }
 }
 
 const withNavigation = Component => (props) => (
   <Navigation>
-    <Component {...props}/>
+    <Component {...props} />
   </Navigation>
 )
 

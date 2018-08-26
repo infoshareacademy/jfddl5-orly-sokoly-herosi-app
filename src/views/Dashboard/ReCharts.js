@@ -52,7 +52,7 @@ class ReCharts extends React.Component {
         const dayFive = dayFour - day
         const daySix = dayFive - day
         const daySeven = daySix - day
-        console.log(daySeven)
+
 
         const data = [
             {
@@ -90,14 +90,14 @@ class ReCharts extends React.Component {
                         0
             }
         ]
-        console.log(dayTwo)
+
         return data
     }
 
     render() {
         const data = this.calculateLoginDate()
 
-        console.log(data)
+
 
         return (
             <div style={styles}>

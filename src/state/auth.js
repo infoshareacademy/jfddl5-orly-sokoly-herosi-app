@@ -37,7 +37,7 @@ export const initAuthStateListening = () => (dispatch, getState) => {
     }
   });
 };
-
+ 
 export const initUserLogIns = () => (dispatch, getState) => {
   database
       .ref('userLogIns')
