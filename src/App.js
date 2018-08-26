@@ -49,6 +49,7 @@ class App extends React.Component {
         <Router>
           <Route path={"/filling-in-survey/:id"} component={FillingInSurvey} />
         </Router>
+
         <SnackBar />
       </div>
     );

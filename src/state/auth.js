@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
         timestamp: action.data
       };
     case LOGGED_OUT:
-      return initialState;
+      return { initialState };
     default:
       return state;
   }
