@@ -59,7 +59,7 @@ const FinalSurveyView = (props) => {
                                     primary={true}
                                     fullWidth={true}
                                     label="Generate public survey!"
-                                    href={`/filling-in-survey/${id}`}
+                                    href={`/filling-in-survey/${props._uuid}/${id}`}
                                     target={'_blank'}
                                 />
                             </div>
@@ -87,6 +87,7 @@ const FinalSurveyView = (props) => {
 }
 
 const mapStateToProps = state => ({
+    _uuid: state.auth.user.uid,
     _surveyList: state.surveys.surveyList
 })
 

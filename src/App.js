@@ -42,7 +42,7 @@ class App extends React.Component {
               component={withAuthAndNavigation(FinalSurveyView)}
             />
 
-            <Route path={"/filling-in-survey/:id"} component={FillingInSurvey} />
+            <Route path={"/filling-in-survey/:uuid/:id"} component={FillingInSurvey} />
           </div>
         </Router>
 
