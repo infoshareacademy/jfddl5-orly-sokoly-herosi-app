@@ -15,39 +15,35 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Auth>
-          <Router>
-            <div>
-              <Route path={"/"} exact component={withNavigation(Dashboard)} />
-
-              <Route
-                path={"/dashboard"}
-                component={withNavigation(Dashboard)}
-              />
-
-              <Route
-                path={"/ours-surveys"}
-                component={withNavigation(OursSurveysView)}
-              />
-
-              <Route
-                path={"/new-survey"}
-                component={withNavigation(NewSurveyView)}
-              />
-              <Route
-                path={"/favourites"}
-                component={withNavigation(FavouritesView)}
-              />
-              <Route
-                path={"/survey/:id/:goBackLink"}
-                component={withNavigation(FinalSurveyView)}
-              />
-            </div>
-          </Router>
-        </Auth>
-
         <Router>
-          <Route path={"/filling-in-survey/:id"} component={FillingInSurvey} />
+          <div>
+            <Route path={"/"} exact component={withAuthAndNavigation(Dashboard)} />
+
+            <Route
+              path={"/dashboard"}
+              component={withAuthAndNavigation(Dashboard)}
+            />
+
+            <Route
+              path={"/ours-surveys"}
+              component={withAuthAndNavigation(OursSurveysView)}
+            />
+
+            <Route
+              path={"/new-survey"}
+              component={withAuthAndNavigation(NewSurveyView)}
+            />
+            <Route
+              path={"/favourites"}
+              component={withAuthAndNavigation(FavouritesView)}
+            />
+            <Route
+              path={"/survey/:id/:goBackLink"}
+              component={withAuthAndNavigation(FinalSurveyView)}
+            />
+
+            <Route path={"/filling-in-survey/:uuid/:id"} component={FillingInSurvey} />
+          </div>
         </Router>
 
         <SnackBar />
@@ -56,10 +52,12 @@ class App extends React.Component {
   }
 }
 
-const withNavigation = Component => props => (
-  <Navigation>
-    <Component {...props} />
-  </Navigation>
+const withAuthAndNavigation = Component => props => (
+  <Auth>
+    <Navigation>
+      <Component {...props} />
+    </Navigation>
+  </Auth>
 );
 
 export default App;

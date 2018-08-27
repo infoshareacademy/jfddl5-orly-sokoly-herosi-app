@@ -9,6 +9,7 @@ const myApiUrl = 'https://survey-app-84f53.firebaseio.com/surveys'
 
 export const saveNewSurvey = () => (dispatch, getState) => {
     const currentState = getState()
+    const uuid = currentState.auth.user.uid
 
     if (currentState.newSurvey.title === '') {
         (() => this.props.setOpenAction())
@@ -31,7 +32,7 @@ export const saveNewSurvey = () => (dispatch, getState) => {
         body: JSON.stringify(newSurveyData)
     }
 
-    return fetch(`${myApiUrl}.json`, request)
+    return fetch(`${myApiUrl}/${uuid}.json`, request)
         .then(r => r.json())
         .then(data => {
             const newSurveyKey = data.name
@@ -41,7 +42,7 @@ export const saveNewSurvey = () => (dispatch, getState) => {
                     method: 'POST',
                     body: JSON.stringify(question)
                 }
-                return fetch(`${myApiUrl}/${newSurveyKey}/questions.json`, request)
+                return fetch(`${myApiUrl}/${uuid}/${newSurveyKey}/questions.json`, request)
             })
             return Promise.all(questionSavePromises)
                 .then(() => dispatch(resetState()))

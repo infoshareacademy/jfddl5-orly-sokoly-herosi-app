@@ -14,7 +14,7 @@ class FillingInSurvey extends React.Component {
     }
 
     componentDidMount = () => {
-        this.props._loadingSurvey(this.props.match.params.id)
+        this.props._loadingSurvey(this.props.match.params.uuid, this.props.match.params.id)
     }
 
     onAnswerChanged = (event, questionId) => {
@@ -77,7 +77,7 @@ class FillingInSurvey extends React.Component {
                                 fullWidth={true}
                                 label="Send your answers!"
                                 onClick={() => {
-                                    this.props._pushAnswersAction(this.state.answers, this.props.match.params.id)
+                                    this.props._pushAnswersAction(this.state.answers, this.props.match.params.uuid, this.props.match.params.id)
                                     this.setState({ answers: {} })
                                     this.props._setOpenAction()
                                 }}
@@ -96,8 +96,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    _loadingSurvey: (id) => dispatch(loadingSurvey(id)),
-    _pushAnswersAction: (answers, surveyId) => dispatch(pushAnswersAction(answers, surveyId)),
+    _loadingSurvey: (uuid, id) => dispatch(loadingSurvey(uuid, id)),
+    _pushAnswersAction: (answers, uuid, surveyId) => dispatch(pushAnswersAction(answers, uuid, surveyId)),
     _setOpenAction: () => dispatch(setOpenAction('Thank you for your time!'))
 })
 

@@ -11,7 +11,7 @@ const getSurveyAction = (survey) => ({
     survey
 })
 
-export const pushAnswersAction = (answers, surveyId) => (dispatch, getState) => {
+export const pushAnswersAction = (answers, uuid, surveyId) => (dispatch, getState) => {
     Object.entries(answers)
         .map(([questionId, answer]) => (
             {
@@ -20,16 +20,16 @@ export const pushAnswersAction = (answers, surveyId) => (dispatch, getState) => 
             }
         ))
         .forEach(e =>
-            database.ref(`surveys/${surveyId}/answers`).push({
+            database.ref(`surveys/${uuid}/${surveyId}/answers`).push({
                 answer: e.answer,
                 questionId: e.questionId
             })
         )
 }
 
-export const loadingSurvey = (id) => (dispatch, getState) => {
+export const loadingSurvey = (uuid, id) => (dispatch, getState) => {
     database
-        .ref(`surveys/${id}`)
+        .ref(`surveys/${uuid}/${id}`)
         .on('value', snapshot => {
             const firebaseData = snapshot.val() || {}
             dispatch(getSurveyAction(firebaseData))
