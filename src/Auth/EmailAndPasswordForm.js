@@ -4,10 +4,16 @@ import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import PaperRefined from "../components/PaperRefined";
 
+const textJustify = {
+  display: "flex",
+  justifyContent: "center",
+  textAlign: "center"
+};
+
 const EmailAndPasswordForm = props => (
   <div>
     <PaperRefined>
-      <h1>{props.label}</h1>
+      <h1 style={textJustify}>{props.label}</h1>
       <div>
         <TextField
           floatingLabelText="E-mail"
@@ -31,6 +37,7 @@ const EmailAndPasswordForm = props => (
           label={props.label}
           primary={true}
           onClick={props.onClickAction}
+          style={textJustify}
         />
       </div>
     </PaperRefined>
