@@ -11,14 +11,20 @@ export const setSurveysAction = (data) => (
 )
 
 export const toggleFavAction = (id, isFavourite) => (dispatch, getState) => {
-    database.ref(`surveys/${id}`).update({
+    const currentState = getState()
+    const uuid = currentState.auth.user.uid
+
+    database.ref(`surveys/${uuid}/${id}`).update({
         isFavourite: !isFavourite
     })
  }
 
 export const initSurveysSync = () => (dispatch, getState) => {
+    const currentState = getState()
+    const uuid = currentState.auth.user.uid
+
     database
-        .ref('surveys')
+        .ref(`surveys/${uuid}`)
         .on('value', snapshot => {
             const firebaseData = Object.entries(snapshot.val() || {}).map(([id, value]) => {
                 value.id = id
