@@ -37,7 +37,7 @@ const FinalSurveyView = (props) => {
                 id
             }
         })
-    const answers = survey && Object.entries(survey.answers)
+        const answers = survey && Object.entries(survey.answers || {})
         .map(([id, value]) => {
             console.log('value', value)
             return value
