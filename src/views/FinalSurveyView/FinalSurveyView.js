@@ -24,7 +24,7 @@ const FinalSurveyView = (props) => {
             padding: '50px',
             margin: '50px auto',
             width: '800px'
-        }, 
+        },
         buttons: {
             margin: '30px',
         }
@@ -32,6 +32,14 @@ const FinalSurveyView = (props) => {
 
     const questions = survey && Object.entries(survey.questions)
         .map(([id, value]) => {
+            return {
+                ...value,
+                id
+            }
+        })
+    const answers = survey && Object.entries(survey.answers)
+        .map(([id, value]) => {
+            console.log('value', value)
             return value
         })
 
@@ -64,7 +72,7 @@ const FinalSurveyView = (props) => {
                                 />
                             </div>
                             <div
-                            style={styles.buttons}
+                                style={styles.buttons}
                             >
                                 <Link
                                     to={'/' + goBackLink}
@@ -76,6 +84,26 @@ const FinalSurveyView = (props) => {
                                     />
                                 </Link>
                             </div>
+                        </div>
+                        <div>
+                            <h4> Answers:</h4>
+                            <ol>
+                                {
+                                    questions.map((question) => (
+                                        <li>
+                                            {question.questionText}
+                                            <ul>
+                                                {
+                                                    answers
+                                                        .filter(asnwer => asnwer.questionId === question.id)
+                                                        .map(answer => (
+                                                            <li>{answer.answer}</li>
+                                                        ))
+                                                }
+                                            </ul>
+                                        </li>
+                                    ))}
+                            </ol>
                         </div>
 
                     </div>
