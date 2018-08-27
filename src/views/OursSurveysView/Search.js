@@ -28,9 +28,9 @@ const Search = (props) => (
         <p>{moment(props.rangeArray[1]).format('LL')}</p>
         </div>
         <Range
-            min={props.oldestSurveyTimestamp}
+            min={props.oldestSurveyTimestamp || 0}
             max={Date.now()}
-            defaultValue={[props.oldestSurveyTimestamp, Date.now()]}
+            defaultValue={[props.oldestSurveyTimestamp || 0, Date.now()]}
             onChange={props.onChangeRangeArrayHandler}
             allowCross={false}
             tipFormatter={value => `${moment(value).format('LL')}`}
